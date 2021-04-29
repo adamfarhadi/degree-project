@@ -317,8 +317,9 @@ public class UnrolledList {
         UnrolledList unrolledList = new UnrolledList();
         ConcurrentSkipListSet<Integer> javaList = new ConcurrentSkipListSet<Integer>();
         int range = 250000;
-        int initialKeys = 10000;
+        int initialKeys = 100000;
         int numOps = 100000;
+        int numThreads = 4;
 
         // initialize
         for (int i = 0; i < initialKeys; i++) {
@@ -327,21 +328,37 @@ public class UnrolledList {
             javaList.add(x);
         }
 
-        for (int i = 0; i < numOps; i++) {
-            int coin = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-            int x = ThreadLocalRandom.current().nextInt(0, range + 1);
+        Runnable runnable = () -> {
+            for (int i = 0; i < numOps/numThreads; i++) {
+                int coin = ThreadLocalRandom.current().nextInt(0, 100 + 1);
+                int x = ThreadLocalRandom.current().nextInt(0, range + 1);
+    
+                if (coin <= 20) {
+                    unrolledList.add(x);
+                    javaList.add(x);
+                } else if (coin > 20 && coin <= 40) {
+                    unrolledList.remove(x);
+                    javaList.remove(x);
+                } else {
+                    unrolledList.contains(x);
+                    javaList.contains(x);
+                }
+            }
+        };
 
-            if (coin <= 20) {
-                unrolledList.add(x);
-                javaList.add(x);
-            } else if (coin > 20 && coin <= 40) {
-                unrolledList.remove(x);
-                javaList.remove(x);
-            } else {
-                unrolledList.contains(x);
-                javaList.contains(x);
+        Thread[] threads = new Thread[numThreads];
+        for (int i = 0; i < numThreads; i++) {
+            threads[i] = new Thread(runnable);
+            threads[i].start();
+        }
+        for (int i = 0; i < threads.length; i++) {
+            try {
+                threads[i].join();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+
         // unrolledList.print();
         System.out.println(unrolledList.size());
         System.out.println(javaList.size());
