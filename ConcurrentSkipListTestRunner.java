@@ -6,16 +6,18 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ConcurrentSkipListTestRunner {
 
-    ConcurrentSkipListSet list;
+    ConcurrentSkipListSet<Integer> list;
     int N;
     int range;
     int numThreads;
+    int initialSize;
 
     public ConcurrentSkipListTestRunner(int numThreads, int[] inputList, int N, int range) {
-        list = new ConcurrentSkipListSet<>();
+        list = new ConcurrentSkipListSet<Integer>();
         for (int i = 0; i < inputList.length; i++) {
             list.add(inputList[i]);
         }
+        this.initialSize = list.size();
         this.numThreads = numThreads;
         this.N = N;
         this.range = range;
@@ -38,11 +40,11 @@ public class ConcurrentSkipListTestRunner {
         int l = operations.length;
         for (int i = 0; i < l; i++) {
             if (operations[i] == 0) {
-                list.add(ThreadLocalRandom.current().nextInt(range));
+                list.add(ThreadLocalRandom.current().nextInt(-range / 2, range / 2 + 1));
             } else if (operations[i] == 1) {
-                list.remove(ThreadLocalRandom.current().nextInt(range));
+                list.remove(ThreadLocalRandom.current().nextInt(-range / 2, range / 2 + 1));
             } else if (operations[i] == 2) {
-                list.contains(ThreadLocalRandom.current().nextInt(range));
+                list.contains(ThreadLocalRandom.current().nextInt(-range / 2, range / 2 + 1));
             }
         }
     }
@@ -64,7 +66,7 @@ public class ConcurrentSkipListTestRunner {
         return operationsList;
     }
 
-    public long runTest(int numOperations, double ratioAdds, double ratioRemoves, double ratioContains) {
+    public TestResults runTest(int numOperations, double ratioAdds, double ratioRemoves, double ratioContains) {
 
         Thread[] threads = new Thread[numThreads];
         int numAddsPerThread = (int) (numOperations * ratioAdds / numThreads);
@@ -98,6 +100,6 @@ public class ConcurrentSkipListTestRunner {
 
         // System.out.println("Final List Size: " + list.size());
 
-        return total_time;
+        return new TestResults(total_time, initialSize, list.size());
     }
 }

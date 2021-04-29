@@ -3,16 +3,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class UnrolledListTestRunner {
+public class VersionedListTestRunner {
 
-    UnrolledList list;
+    VersionedList list;
     int N;
     int range;
     int numThreads;
     int initialSize;
 
-    public UnrolledListTestRunner(int numThreads, int[] inputList, int N, int range) {
-        list = new UnrolledList();
+    public VersionedListTestRunner(int numThreads, int[] inputList, int N, int range) {
+        list = new VersionedList();
         for (int i = 0; i < inputList.length; i++) {
             list.add(inputList[i]);
         }
