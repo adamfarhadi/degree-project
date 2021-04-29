@@ -161,152 +161,109 @@ public class UnrolledList {
             UnrolledNode pred = temp.node1;
             UnrolledNode curr = temp.node2;
 
-            System.out.println("### add() 1: pred.lock(), node=" + pred + " time:" + System.nanoTime() + " thread="
-                    + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
             pred.lock();
 
-            if (!validate(pred, curr)) {
-                System.out.println("### add() 2: pred.unlock(), node=" + pred + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
-                pred.unlock();
-                continue;
-            }
-
-            if (seek(curr, key) != -1) {
-                System.out.println("### add() 3: pred.unlock(), node=" + pred + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
-                pred.unlock();
-                return false;
-            }
-
-            int slot = seek(curr, Constants.unusedSlot);
-            if (slot != -1) {
-                curr.keys[slot] = key;
-                curr.count++;
-            } else {
-                System.out.println("### add() 4: curr.lock(), node=" + curr + " time:" + System.nanoTime() + " thread="
-                        + Thread.currentThread().getId() + " holdcount=" + curr.lock.getHoldCount());
-                curr.lock();
-                UnrolledNodePair temp2 = split(curr);
-                UnrolledNode new1 = temp2.node1;
-                UnrolledNode new2 = temp2.node2;
-
-                if (key < new2.anchor) {
-                    new1.keys[Constants.K / 2] = key;
-                    new1.count++;
-                } else {
-                    new2.keys[Constants.K / 2] = key;
-                    new2.count++;
+            try {
+                if (!validate(pred, curr)) {
+                    continue;
                 }
 
-                curr.marked = true;
-                pred.next = new1;
-                System.out.println("### add() 5: curr.unlock(), node=" + curr + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + curr.lock.getHoldCount());
-                curr.unlock();
+                if (seek(curr, key) != -1) {
+                    return false;
+                }
+
+                int slot = seek(curr, Constants.unusedSlot);
+                if (slot != -1) {
+                    curr.keys[slot] = key;
+                    curr.count++;
+                } else {
+                    curr.lock();
+                    try {
+                        UnrolledNodePair temp2 = split(curr);
+                        UnrolledNode new1 = temp2.node1;
+                        UnrolledNode new2 = temp2.node2;
+
+                        if (key < new2.anchor) {
+                            new1.keys[Constants.K / 2] = key;
+                            new1.count++;
+                        } else {
+                            new2.keys[Constants.K / 2] = key;
+                            new2.count++;
+                        }
+
+                        curr.marked = true;
+                        pred.next = new1;
+                    } finally {
+                        curr.unlock();
+                    }
+                }
+                return true;
+            } finally {
+                pred.unlock();
             }
-            System.out.println("### add() 6: pred.unlock(), node=" + pred + " time:" + System.nanoTime() + " thread="
-                    + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
-            pred.unlock();
-            return true;
         }
     }
 
     public boolean remove(int key) {
-        System.out.println("remove(" + key + ")");
         while (true) {
             UnrolledNodePair temp = scan(key);
             UnrolledNode pred = temp.node1;
             UnrolledNode curr = temp.node2;
 
-            // int x = pred.lock.getHoldCount();
-            // if (x > 0) {
-            // System.out.println("test");
-            // }
-
-            System.out
-                    .println("### remove() 1: pred.lock(), node=" + pred + " key= " + key + " time:" + System.nanoTime()
-                            + " thread=" + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
             pred.lock();
 
-            if (!validate(pred, curr)) {
-                System.out.println("### remove() 2: pred.unlock(), node=" + pred + " key= " + key + " time:"
-                        + System.nanoTime() + " thread=" + Thread.currentThread().getId() + " holdcount="
-                        + pred.lock.getHoldCount());
-                pred.unlock();
-                continue;
-            }
+            try {
+                if (!validate(pred, curr)) {
+                    continue;
+                }
 
-            int slot = seek(curr, key);
-            if (slot == -1) {
-                System.out.println("### remove() 3: pred.unlock(), node=" + pred + " key= " + key + " time:"
-                        + System.nanoTime() + " thread=" + Thread.currentThread().getId() + " holdcount="
-                        + pred.lock.getHoldCount());
-                pred.unlock();
-                return false;
-            }
-            curr.keys[slot] = Constants.unusedSlot;
-            curr.count--;
+                int slot = seek(curr, key);
+                if (slot == -1) {
+                    return false;
+                }
+                curr.keys[slot] = Constants.unusedSlot;
+                curr.count--;
 
-            UnrolledNode succ = curr.next;
-            if (curr.count < Constants.MINFULL) {
-                System.out.println("### remove() 4: curr.lock(), node=" + curr + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + curr.lock.getHoldCount());
-                curr.lock();
-                System.out.println("### remove() 5: succ.lock(), node=" + pred + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
-                succ.lock();
-                if (curr.count == 0) {
-                    if (curr.anchor != Constants.sentinalMin) {
-                        curr.marked = true;
-                        pred.next = succ;
+                UnrolledNode succ = curr.next;
+                if (curr.count < Constants.MINFULL) {
+                    curr.lock();
+
+                    try {
+                        if (curr.count == 0) {
+                            if (curr.anchor != Constants.sentinalMin) {
+                                curr.marked = true;
+                                pred.next = succ;
+                            }
+                            return true;
+                        }
+                        succ = curr.next;
+
+                        if (succ.anchor == Constants.sentinalMax) {
+                            return true;
+                        }
+                        succ.lock();
+
+                        try {
+                            UnrolledNode new1;
+                            if (curr.count + succ.count < Constants.MAXMERGE) {
+                                new1 = merge(curr, succ);
+                            } else {
+                                UnrolledNodePair temp2 = redistribute(curr, succ);
+                                new1 = temp2.node1;
+                            }
+                            curr.marked = true;
+                            succ.marked = true;
+                            pred.next = new1;
+                            return true;
+                        } finally {
+                            succ.unlock();
+                        }
+                    } finally {
+                        curr.unlock();
                     }
-                    System.out.println("### remove() 6: succ.unlock(), node=" + succ + " time:" + System.nanoTime()
-                            + " thread=" + Thread.currentThread().getId() + " holdcount=" + succ.lock.getHoldCount());
-                    succ.unlock();
-                    System.out.println("### remove() 7: curr.unlock(), node=" + curr + " time:" + System.nanoTime()
-                            + " thread=" + Thread.currentThread().getId() + " holdcount=" + curr.lock.getHoldCount());
-                    curr.unlock();
-                    System.out.println("### remove() 8: pred.unlock(), node=" + pred + " time:" + System.nanoTime()
-                            + " thread=" + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
-                    pred.unlock();
-                    return true;
                 }
-                succ = curr.next;
-
-                if (succ.anchor == Constants.sentinalMax) {
-                    System.out.println("### remove() 9: succ.unlock(), node=" + succ + " time:" + System.nanoTime()
-                            + " thread=" + Thread.currentThread().getId() + " holdcount=" + succ.lock.getHoldCount());
-                    succ.unlock();
-                    System.out.println("### remove() 10: curr.unlock(), node=" + curr + " time:" + System.nanoTime()
-                            + " thread=" + Thread.currentThread().getId() + " holdcount=" + curr.lock.getHoldCount());
-                    curr.unlock();
-                    System.out.println("### remove() 11: pred.unlock(), node=" + pred + " time:" + System.nanoTime()
-                            + " thread=" + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
-                    pred.unlock();
-                    return true;
-                }
-                // succ.lock();
-                UnrolledNode new1;
-                if (curr.count + succ.count < Constants.MAXMERGE) {
-                    new1 = merge(curr, succ);
-                } else {
-                    UnrolledNodePair temp2 = redistribute(curr, succ);
-                    new1 = temp2.node1;
-                }
-                curr.marked = true;
-                succ.marked = true;
-                pred.next = new1;
-                System.out.println("### remove() 12: succ.unlock(), node=" + succ + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + succ.lock.getHoldCount());
-                succ.unlock();
-                System.out.println("### remove() 13: curr.unlock(), node=" + curr + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + curr.lock.getHoldCount());
-                curr.unlock();
-                System.out.println("### remove() 14: pred.unlock(), node=" + pred + " time:" + System.nanoTime()
-                        + " thread=" + Thread.currentThread().getId() + " holdcount=" + pred.lock.getHoldCount());
+            } finally {
                 pred.unlock();
-                return true;
             }
         }
     }
