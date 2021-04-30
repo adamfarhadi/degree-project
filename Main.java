@@ -72,27 +72,27 @@ public class Main {
                         + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
                         + ", averageFinalSize=" + totalFinalSize / testResults.size());
 
-                // result = new long[numRuns];
-                testResults = new ArrayList<TestResults>(numRuns);
-                for (int i = 0; i < numRuns; i++) {
-                    sleepBeforeEachRun();
-                    UnrolledListTestRunner test = new UnrolledListTestRunner(numThread, list2, N, range);
-                    testResults
-                            .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
-                }
-                totalTime = 0;
-                totalInitialSize = 0;
-                totalFinalSize = 0;
-                for (int i = 0; i < testResults.size(); i++) {
-                    totalTime += testResults.get(i).time;
-                    totalInitialSize += testResults.get(i).initialSize;
-                    totalFinalSize += testResults.get(i).finalSize;
-                }
-                avgTime = totalTime / testResults.size();
-                avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
-                System.out.println("[" + numThread + " threads, gaussian]: avgTime= " + avgTime + ", avgThroughput="
-                        + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
-                        + ", averageFinalSize=" + totalFinalSize / testResults.size());
+                // // result = new long[numRuns];
+                // testResults = new ArrayList<TestResults>(numRuns);
+                // for (int i = 0; i < numRuns; i++) {
+                //     sleepBeforeEachRun();
+                //     UnrolledListTestRunner test = new UnrolledListTestRunner(numThread, list2, N, range);
+                //     testResults
+                //             .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
+                // }
+                // totalTime = 0;
+                // totalInitialSize = 0;
+                // totalFinalSize = 0;
+                // for (int i = 0; i < testResults.size(); i++) {
+                //     totalTime += testResults.get(i).time;
+                //     totalInitialSize += testResults.get(i).initialSize;
+                //     totalFinalSize += testResults.get(i).finalSize;
+                // }
+                // avgTime = totalTime / testResults.size();
+                // avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
+                // System.out.println("[" + numThread + " threads, gaussian]: avgTime= " + avgTime + ", avgThroughput="
+                //         + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
+                //         + ", averageFinalSize=" + totalFinalSize / testResults.size());
             }
         }
 
@@ -134,27 +134,27 @@ public class Main {
                         + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
                         + ", averageFinalSize=" + totalFinalSize / testResults.size());
 
-                // result = new long[numRuns];
-                testResults = new ArrayList<TestResults>(numRuns);
-                for (int i = 0; i < numRuns; i++) {
-                    sleepBeforeEachRun();
-                    ConcurrentSkipListTestRunner test = new ConcurrentSkipListTestRunner(numThread, list2, N, range);
-                    testResults
-                            .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
-                }
-                totalTime = 0;
-                totalInitialSize = 0;
-                totalFinalSize = 0;
-                for (int i = 0; i < testResults.size(); i++) {
-                    totalTime += testResults.get(i).time;
-                    totalInitialSize += testResults.get(i).initialSize;
-                    totalFinalSize += testResults.get(i).finalSize;
-                }
-                avgTime = totalTime / testResults.size();
-                avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
-                System.out.println("[" + numThread + " threads, gaussian]: avgTime= " + avgTime + ", avgThroughput="
-                        + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
-                        + ", averageFinalSize=" + totalFinalSize / testResults.size());
+                // // result = new long[numRuns];
+                // testResults = new ArrayList<TestResults>(numRuns);
+                // for (int i = 0; i < numRuns; i++) {
+                //     sleepBeforeEachRun();
+                //     ConcurrentSkipListTestRunner test = new ConcurrentSkipListTestRunner(numThread, list2, N, range);
+                //     testResults
+                //             .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
+                // }
+                // totalTime = 0;
+                // totalInitialSize = 0;
+                // totalFinalSize = 0;
+                // for (int i = 0; i < testResults.size(); i++) {
+                //     totalTime += testResults.get(i).time;
+                //     totalInitialSize += testResults.get(i).initialSize;
+                //     totalFinalSize += testResults.get(i).finalSize;
+                // }
+                // avgTime = totalTime / testResults.size();
+                // avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
+                // System.out.println("[" + numThread + " threads, gaussian]: avgTime= " + avgTime + ", avgThroughput="
+                //         + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
+                //         + ", averageFinalSize=" + totalFinalSize / testResults.size());
             }
         }
 
@@ -196,27 +196,27 @@ public class Main {
                         + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
                         + ", averageFinalSize=" + totalFinalSize / testResults.size());
 
-                // result = new long[numRuns];
-                testResults = new ArrayList<TestResults>(numRuns);
-                for (int i = 0; i < numRuns; i++) {
-                    sleepBeforeEachRun();
-                    VersionedListTestRunner test = new VersionedListTestRunner(numThread, list2, N, range);
-                    testResults
-                            .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
-                }
-                totalTime = 0;
-                totalInitialSize = 0;
-                totalFinalSize = 0;
-                for (int i = 0; i < testResults.size(); i++) {
-                    totalTime += testResults.get(i).time;
-                    totalInitialSize += testResults.get(i).initialSize;
-                    totalFinalSize += testResults.get(i).finalSize;
-                }
-                avgTime = totalTime / testResults.size();
-                avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
-                System.out.println("[" + numThread + " threads, gaussian]: avgTime= " + avgTime + ", avgThroughput="
-                        + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
-                        + ", averageFinalSize=" + totalFinalSize / testResults.size());
+                // // result = new long[numRuns];
+                // testResults = new ArrayList<TestResults>(numRuns);
+                // for (int i = 0; i < numRuns; i++) {
+                //     sleepBeforeEachRun();
+                //     VersionedListTestRunner test = new VersionedListTestRunner(numThread, list2, N, range);
+                //     testResults
+                //             .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
+                // }
+                // totalTime = 0;
+                // totalInitialSize = 0;
+                // totalFinalSize = 0;
+                // for (int i = 0; i < testResults.size(); i++) {
+                //     totalTime += testResults.get(i).time;
+                //     totalInitialSize += testResults.get(i).initialSize;
+                //     totalFinalSize += testResults.get(i).finalSize;
+                // }
+                // avgTime = totalTime / testResults.size();
+                // avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
+                // System.out.println("[" + numThread + " threads, gaussian]: avgTime= " + avgTime + ", avgThroughput="
+                //         + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
+                //         + ", averageFinalSize=" + totalFinalSize / testResults.size());
             }
         }
 
@@ -231,7 +231,7 @@ public class Main {
         final int numRuns = 5;
         final int[] list1 = new int[N];
         final int[] list2 = new int[N];
-        final int[] numThreads = new int[] { 2, 6 };
+        final int[] numThreads = new int[] { 6, 12, 24, 48 };
         final double[][] ratios = new double[][] { { 0.2, 0.2, 0.6 } };
 
         System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
