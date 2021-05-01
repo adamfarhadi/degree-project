@@ -29,10 +29,9 @@ public class Main {
         }
     }
 
-    private static void runTest(String testType, int N, int range, int numOpsPerThread, int[] numThreads, double[][] ratios,
+    private static void runTest(String testType, int N, int range, int[] numThreads, double[][] ratios,
             int numRuns, int[] list1) {
-        System.out.println("\nTesting " + testType + " with N = " + N + ", range = " + range + ", numOps = " + numOpsPerThread
-                + ", numRuns = " + numRuns);
+        System.out.println("\nTesting " + testType + " with N = " + N + ", range = " + range + ", numRuns = " + numRuns);
         System.out.println("---");
 
         for (int ratioSet = 0; ratioSet < ratios.length; ratioSet++) {
@@ -46,18 +45,21 @@ public class Main {
                     sleepBeforeEachRun();
                     TestRunner test = new TestRunner(testType, numThread, list1, N, range);
                     testResults
-                            .add(test.runTest(numOpsPerThread, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
+                            .add(test.runTest(ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
                 }
                 long totalTime = 0;
                 long totalInitialSize = 0;
                 long totalFinalSize = 0;
+                long totalCompletedOps = 0;
                 for (int i = 0; i < testResults.size(); i++) {
                     totalTime += testResults.get(i).time;
                     totalInitialSize += testResults.get(i).initialSize;
                     totalFinalSize += testResults.get(i).finalSize;
+                    totalCompletedOps += testResults.get(i).numCompletedOps;
                 }
-                long avgTime = totalTime / testResults.size();
-                long avgThroughput = (long) (numOpsPerThread * numThread * Math.pow(10, 6) / avgTime); // ops/ms
+                System.out.println(totalCompletedOps);
+                long avgTime = totalTime / numRuns;
+                long avgThroughput = (long) (totalCompletedOps * Math.pow(10, 6) / totalTime); // ops/ms
                 System.out.println("[" + numThread + " threads]: avgTime= " + avgTime + ", avgThroughput="
                         + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
                         + ", averageFinalSize=" + totalFinalSize / testResults.size());
@@ -71,7 +73,6 @@ public class Main {
     private static void testOnServer() {
         final int N = (int) (5 * Math.pow(10, 2));
         final int range = (int) Math.pow(10, 3);
-        final int numOpsPerThread = (int) Math.pow(10, 6);
         final int numRuns = 5;
         final int[] list1 = new int[N];
         final int[] numThreads = new int[] { 2, 8, 16, 28 };
@@ -86,15 +87,14 @@ public class Main {
         System.out.println("\nList 1: Data sampled uniformly at random:");
         getMeanAndStdDev(list1);
 
-        runTest("UnrolledList", N, range, numOpsPerThread, numThreads, ratios, numRuns, list1);
-        runTest("VersionedList", N, range, numOpsPerThread, numThreads, ratios, numRuns, list1);
-        runTest("LockFreeList", N, range, numOpsPerThread, numThreads, ratios, numRuns, list1);
+        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, list1);
+        runTest("VersionedList", N, range, numThreads, ratios, numRuns, list1);
+        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, list1);
     }
 
     private static void testLocally() {
-        final int N = (int) (5 * Math.pow(10, 2));
-        final int range = (int) Math.pow(10, 3);
-        final int numOpsPerThread = (int) Math.pow(10, 5);
+        final int N = (int) (5 * Math.pow(10, 3));
+        final int range = (int) Math.pow(10, 4);
         final int numRuns = 5;
         final int[] list1 = new int[N];
         final int[] numThreads = new int[] { 2, 6 };
@@ -109,9 +109,9 @@ public class Main {
         System.out.println("\nList 1: Data sampled uniformly at random:");
         getMeanAndStdDev(list1);
 
-        runTest("UnrolledList", N, range, numOpsPerThread, numThreads, ratios, numRuns, list1);
-        runTest("VersionedList", N, range, numOpsPerThread, numThreads, ratios, numRuns, list1);
-        runTest("LockFreeList", N, range, numOpsPerThread, numThreads, ratios, numRuns, list1);
+        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, list1);
+        runTest("VersionedList", N, range, numThreads, ratios, numRuns, list1);
+        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, list1);
     }
 
     public static void main(String[] args) {

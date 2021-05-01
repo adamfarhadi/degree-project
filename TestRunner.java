@@ -17,7 +17,7 @@ public class TestRunner {
     int initialSize;
 
     public TestRunner(String testType, int numThreads, int[] inputList, int N, int range) {
-        if(testType == "UnrolledList") {
+        if (testType == "UnrolledList") {
             list = new UnrolledList();
         } else if (testType == "VersionedList") {
             list = new VersionedList();
@@ -26,7 +26,7 @@ public class TestRunner {
         } else {
             return;
         }
-        
+
         for (int i = 0; i < inputList.length; i++) {
             list.add(inputList[i]);
         }
@@ -79,36 +79,79 @@ public class TestRunner {
         return operationsList;
     }
 
-    public TestResults runTest(int numOpsPerThread, double ratioAdds, double ratioRemoves, double ratioContains) {
+    public TestResults runTest(double ratioAdds, double ratioRemoves, double ratioContains) {
 
         Thread[] threads = new Thread[numThreads];
-        int numAddsPerThread = (int) (numOpsPerThread * ratioAdds);
-        int numRemovesPerThread = (int) (numOpsPerThread * ratioRemoves);
-        int numContainsPerThread = (int) (numOpsPerThread * ratioContains);
-        Integer[][] operationsList = new Integer[numThreads][];
+        ThreadRunner[] threadRunners = new ThreadRunner[numThreads];
 
         for (int i = 0; i < numThreads; i++) {
-            operationsList[i] = generateOperations(numAddsPerThread + numRemovesPerThread + numContainsPerThread,
-                    numAddsPerThread, numRemovesPerThread, numContainsPerThread);
+            threadRunners[i] = new ThreadRunner(list, range, (int) (ratioAdds * 100), (int) (ratioRemoves),
+                    (int) (ratioContains));
+            threads[i] = new Thread(threadRunners[i]);
         }
 
         long time = System.nanoTime();
 
-        for (int i = 0; i < numThreads; i++) {
-            threads[i] = new Thread(new RunOperations(operationsList[i]));
-            threads[i].start();
+        for (Thread thread : threads) {
+            thread.start();
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            for (ThreadRunner x : threadRunners) {
+                x.stopThread();
+            }
         }
 
-        for (int i = 0; i < threads.length; i++) {
+        for (Thread thread : threads) {
             try {
-                threads[i].join();
-            } catch (Exception e) {
+                thread.join();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
         long total_time = System.nanoTime() - time;
 
-        return new TestResults(total_time, initialSize, list.size());
+        long numCompletedOps = 0;
+
+        for (int i = 0; i < numThreads; i++) {
+            numCompletedOps += threadRunners[i].numCompletedOps;
+        }
+
+        return new TestResults(total_time, initialSize, list.size(), numCompletedOps);
+
+        // Thread[] threads = new Thread[numThreads];
+        // int numAddsPerThread = (int) (numOpsPerThread * ratioAdds);
+        // int numRemovesPerThread = (int) (numOpsPerThread * ratioRemoves);
+        // int numContainsPerThread = (int) (numOpsPerThread * ratioContains);
+        // Integer[][] operationsList = new Integer[numThreads][];
+
+        // for (int i = 0; i < numThreads; i++) {
+        // operationsList[i] = generateOperations(numAddsPerThread + numRemovesPerThread
+        // + numContainsPerThread,
+        // numAddsPerThread, numRemovesPerThread, numContainsPerThread);
+        // }
+
+        // long time = System.nanoTime();
+
+        // for (int i = 0; i < numThreads; i++) {
+        // threads[i] = new Thread(new RunOperations(operationsList[i]));
+        // threads[i].start();
+        // }
+
+        // for (int i = 0; i < threads.length; i++) {
+        // try {
+        // threads[i].join();
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        // }
+
+        // long total_time = System.nanoTime() - time;
+
+        // return new TestResults(total_time, initialSize, list.size());
     }
 }
