@@ -2,6 +2,8 @@ package lockfree;
 
 import java.util.Collection;
 
+import abstraction.ConcurrentSet;
+
 /**
  * A Java variant of Harris-Michael that uses run-time type identification to
  * determine whether a node is marked as logically deleted. This is the code
@@ -11,7 +13,7 @@ import java.util.Collection;
  * 
  * @author Di Shang
  */
-public class LockFreeList {
+public class LockFreeList extends ConcurrentSet{
     private final NodeLinked tail;
     private final NodeLinked head;
 

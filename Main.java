@@ -29,9 +29,9 @@ public class Main {
         }
     }
 
-    private static void runUnrolledListTest(int N, int range, int numOps, int[] numThreads, double[][] ratios,
+    private static void runTest(String testType, int N, int range, int numOps, int[] numThreads, double[][] ratios,
             int numRuns, int[] list1) {
-        System.out.println("\nTesting UnrolledList with N = " + N + ", range = " + range + ", numOps = " + numOps
+        System.out.println("\nTesting " + testType + " with N = " + N + ", range = " + range + ", numOps = " + numOps
                 + ", numRuns = " + numRuns);
         System.out.println("---");
 
@@ -44,7 +44,7 @@ public class Main {
                 ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
                 for (int i = 0; i < numRuns; i++) {
                     sleepBeforeEachRun();
-                    UnrolledListTestRunner test = new UnrolledListTestRunner(numThread, list1, N, range);
+                    TestRunner test = new TestRunner(testType, numThread, list1, N, range);
                     testResults
                             .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
                 }
@@ -65,130 +65,11 @@ public class Main {
         }
 
         System.out.println("---");
-        System.out.println("Done Testing UnrolledList");
-    }
-
-    private static void runConcurrentSkipListTest(int N, int range, int numOps, int[] numThreads, double[][] ratios,
-            int numRuns, int[] list1) {
-        System.out.println("\nTesting ConcurrentSkipListSet with N = " + N + ", range = " + range + ", numOps = "
-                + numOps + ", numRuns = " + numRuns);
-        System.out.println("---");
-
-        for (int ratioSet = 0; ratioSet < ratios.length; ratioSet++) {
-            if (ratioSet > 0)
-                System.out.println();
-            System.out.println(ratios[ratioSet][0] + " Adds, " + ratios[ratioSet][1] + " Removes, "
-                    + ratios[ratioSet][2] + " Contains");
-            for (int numThread : numThreads) {
-                ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
-                for (int i = 0; i < numRuns; i++) {
-                    sleepBeforeEachRun();
-                    ConcurrentSkipListTestRunner test = new ConcurrentSkipListTestRunner(numThread, list1, N, range);
-                    testResults
-                            .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
-                }
-                long totalTime = 0;
-                long totalInitialSize = 0;
-                long totalFinalSize = 0;
-                for (int i = 0; i < testResults.size(); i++) {
-                    totalTime += testResults.get(i).time;
-                    totalInitialSize += testResults.get(i).initialSize;
-                    totalFinalSize += testResults.get(i).finalSize;
-                }
-                long avgTime = totalTime / testResults.size();
-                long avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
-                System.out.println("[" + numThread + " threads]: avgTime= " + avgTime + ", avgThroughput="
-                        + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
-                        + ", averageFinalSize=" + totalFinalSize / testResults.size());
-            }
-        }
-
-        System.out.println("---");
-        System.out.println("Done Testing ConcurrentSkipListSet");
-    }
-
-    private static void runVersionedListTest(int N, int range, int numOps, int[] numThreads, double[][] ratios,
-            int numRuns, int[] list1) {
-        System.out.println("\nTesting VersionedList with N = " + N + ", range = " + range + ", numOps = " + numOps
-                + ", numRuns = " + numRuns);
-        System.out.println("---");
-
-        for (int ratioSet = 0; ratioSet < ratios.length; ratioSet++) {
-            if (ratioSet > 0)
-                System.out.println();
-            System.out.println(ratios[ratioSet][0] + " Adds, " + ratios[ratioSet][1] + " Removes, "
-                    + ratios[ratioSet][2] + " Contains");
-            for (int numThread : numThreads) {
-                // long[] result = new long[numRuns];
-                ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
-                for (int i = 0; i < numRuns; i++) {
-                    sleepBeforeEachRun();
-                    VersionedListTestRunner test = new VersionedListTestRunner(numThread, list1, N, range);
-                    testResults
-                            .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
-                }
-                long totalTime = 0;
-                long totalInitialSize = 0;
-                long totalFinalSize = 0;
-                for (int i = 0; i < testResults.size(); i++) {
-                    totalTime += testResults.get(i).time;
-                    totalInitialSize += testResults.get(i).initialSize;
-                    totalFinalSize += testResults.get(i).finalSize;
-                }
-                long avgTime = totalTime / testResults.size();
-                long avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
-                System.out.println("[" + numThread + " threads]: avgTime= " + avgTime + ", avgThroughput="
-                        + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
-                        + ", averageFinalSize=" + totalFinalSize / testResults.size());
-            }
-        }
-
-        System.out.println("---");
-        System.out.println("Done Testing VersionedList");
-    }
-
-    private static void runLockFreeListTest(int N, int range, int numOps, int[] numThreads, double[][] ratios,
-            int numRuns, int[] list1) {
-        System.out.println("\nTesting LockFreeList with N = " + N + ", range = " + range + ", numOps = " + numOps
-                + ", numRuns = " + numRuns);
-        System.out.println("---");
-
-        for (int ratioSet = 0; ratioSet < ratios.length; ratioSet++) {
-            if (ratioSet > 0)
-                System.out.println();
-            System.out.println(ratios[ratioSet][0] + " Adds, " + ratios[ratioSet][1] + " Removes, "
-                    + ratios[ratioSet][2] + " Contains");
-            for (int numThread : numThreads) {
-                // long[] result = new long[numRuns];
-                ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
-                for (int i = 0; i < numRuns; i++) {
-                    sleepBeforeEachRun();
-                    LockFreeListTestRunner test = new LockFreeListTestRunner(numThread, list1, N, range);
-                    testResults
-                            .add(test.runTest(numOps, ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
-                }
-                long totalTime = 0;
-                long totalInitialSize = 0;
-                long totalFinalSize = 0;
-                for (int i = 0; i < testResults.size(); i++) {
-                    totalTime += testResults.get(i).time;
-                    totalInitialSize += testResults.get(i).initialSize;
-                    totalFinalSize += testResults.get(i).finalSize;
-                }
-                long avgTime = totalTime / testResults.size();
-                long avgThroughput = (long) (numOps * Math.pow(10, 6) / avgTime); // ops/ms
-                System.out.println("[" + numThread + " threads]: avgTime= " + avgTime + ", avgThroughput="
-                        + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
-                        + ", averageFinalSize=" + totalFinalSize / testResults.size());
-            }
-        }
-
-        System.out.println("---");
-        System.out.println("Done Testing LockFreeList");
+        System.out.println("Done Testing " + testType);
     }
 
     private static void test() {
-        final int N = (int) (5*Math.pow(10, 2));
+        final int N = (int) (5 * Math.pow(10, 2));
         final int range = (int) Math.pow(10, 3);
         final int numOps = (int) Math.pow(10, 6);
         final int numRuns = 5;
@@ -205,10 +86,9 @@ public class Main {
         System.out.println("\nList 1: Data sampled uniformly at random:");
         getMeanAndStdDev(list1);
 
-        runUnrolledListTest(N, range, numOps, numThreads, ratios, numRuns, list1);
-        // runConcurrentSkipListTest(N, range, numOps, numThreads, ratios, numRuns, list1);
-        runVersionedListTest(N, range, numOps, numThreads, ratios, numRuns, list1);
-        runLockFreeListTest(N, range, numOps, numThreads, ratios, numRuns, list1);
+        runTest("UnrolledList", N, range, numOps, numThreads, ratios, numRuns, list1);
+        runTest("VersionedList", N, range, numOps, numThreads, ratios, numRuns, list1);
+        runTest("LockFreeList", N, range, numOps, numThreads, ratios, numRuns, list1);
     }
 
     public static void main(String[] args) {

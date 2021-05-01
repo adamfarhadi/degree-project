@@ -3,18 +3,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import abstraction.ConcurrentSet;
+import lockfree.LockFreeList;
+import unrolled.UnrolledList;
 import versioned.VersionedList;
 
-public class VersionedListTestRunner {
+public class TestRunner {
 
-    VersionedList list;
+    ConcurrentSet list;
     int N;
     int range;
     int numThreads;
     int initialSize;
 
-    public VersionedListTestRunner(int numThreads, int[] inputList, int N, int range) {
-        list = new VersionedList();
+    public TestRunner(String testType, int numThreads, int[] inputList, int N, int range) {
+        if(testType == "UnrolledList") {
+            list = new UnrolledList();
+        } else if (testType == "VersionedList") {
+            list = new VersionedList();
+        } else if (testType == "LockFreeList") {
+            list = new LockFreeList();
+        } else {
+            return;
+        }
+        
         for (int i = 0; i < inputList.length; i++) {
             list.add(inputList[i]);
         }
@@ -80,8 +92,6 @@ public class VersionedListTestRunner {
                     numAddsPerThread, numRemovesPerThread, numContainsPerThread);
         }
 
-        // System.out.println("Initial List Size: " + list.size());
-
         long time = System.nanoTime();
 
         for (int i = 0; i < numThreads; i++) {
@@ -98,8 +108,6 @@ public class VersionedListTestRunner {
         }
 
         long total_time = System.nanoTime() - time;
-
-        // System.out.println("Final List Size: " + list.size());
 
         return new TestResults(total_time, initialSize, list.size());
     }

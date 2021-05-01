@@ -1,6 +1,8 @@
 package versioned;
 
-public class VersionedList{
+import abstraction.ConcurrentSet;
+
+public class VersionedList extends ConcurrentSet{
     // sentinel nodes
     final private NodeStampLock head;
     final private NodeStampLock tail;
