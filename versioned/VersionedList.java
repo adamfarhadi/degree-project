@@ -1,3 +1,5 @@
+package versioned;
+
 public class VersionedList{
     // sentinel nodes
     final private NodeStampLock head;

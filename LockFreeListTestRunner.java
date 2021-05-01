@@ -3,18 +3,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import versioned.VersionedList;
+import lockfree.LockFreeList;
 
-public class VersionedListTestRunner {
+public class LockFreeListTestRunner {
 
-    VersionedList list;
+    LockFreeList list;
     int N;
     int range;
     int numThreads;
     int initialSize;
 
-    public VersionedListTestRunner(int numThreads, int[] inputList, int N, int range) {
-        list = new VersionedList();
+    public LockFreeListTestRunner(int numThreads, int[] inputList, int N, int range) {
+        list = new LockFreeList();
         for (int i = 0; i < inputList.length; i++) {
             list.add(inputList[i]);
         }

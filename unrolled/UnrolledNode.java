@@ -1,5 +1,6 @@
+package unrolled;
+
 import java.util.Arrays;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class UnrolledNode {
@@ -11,7 +12,6 @@ public class UnrolledNode {
 
     public final ReentrantLock lock;
 
-    // constructor for internal nodes
     public UnrolledNode() {
         this.lock = new ReentrantLock();
         this.keys = new int[Constants.K];

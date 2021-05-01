@@ -1,8 +1,12 @@
+package unrolled;
+
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class UnrolledList {
+import abstraction.ConcurrentSet;
+
+public class UnrolledList extends ConcurrentSet {
     public final UnrolledNode head;
     public final UnrolledNode tail;
 
@@ -316,10 +320,10 @@ public class UnrolledList {
     public static void main(String[] args) {
         UnrolledList unrolledList = new UnrolledList();
         ConcurrentSkipListSet<Integer> javaList = new ConcurrentSkipListSet<Integer>();
-        int range = 250000;
-        int initialKeys = 100000;
-        int numOps = 100000;
-        int numThreads = 4;
+        int range = 20000;
+        int initialKeys = 10000;
+        int numOps = 10000;
+        int numThreads = 6;
 
         // initialize
         for (int i = 0; i < initialKeys; i++) {
@@ -328,15 +332,18 @@ public class UnrolledList {
             javaList.add(x);
         }
 
+        System.out.println(unrolledList.size());
+        System.out.println(javaList.size());
+
         Runnable runnable = () -> {
-            for (int i = 0; i < numOps/numThreads; i++) {
+            for (int i = 0; i < numOps / numThreads; i++) {
                 int coin = ThreadLocalRandom.current().nextInt(0, 100 + 1);
                 int x = ThreadLocalRandom.current().nextInt(0, range + 1);
-    
-                if (coin <= 20) {
+
+                if (coin <= 50) {
                     unrolledList.add(x);
                     javaList.add(x);
-                } else if (coin > 20 && coin <= 40) {
+                } else if (coin > 50 && coin <= 100) {
                     unrolledList.remove(x);
                     javaList.remove(x);
                 } else {

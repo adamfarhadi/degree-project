@@ -3,9 +3,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import abstraction.ConcurrentSet;
+import unrolled.UnrolledList;
+
 public class UnrolledListTestRunner {
 
-    UnrolledList list;
+    ConcurrentSet list;
     int N;
     int range;
     int numThreads;
