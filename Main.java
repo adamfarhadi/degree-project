@@ -29,9 +29,10 @@ public class Main {
         }
     }
 
-    private static void runTest(String testType, int N, int range, int[] numThreads, double[][] ratios,
-            int numRuns, int[] list1) {
-        System.out.println("\nTesting " + testType + " with N = " + N + ", range = " + range + ", numRuns = " + numRuns);
+    private static void runTest(String testType, int N, int range, int[] numThreads, double[][] ratios, int numRuns,
+            int[] list1) {
+        System.out
+                .println("\nTesting " + testType + " with N = " + N + ", range = " + range + ", numRuns = " + numRuns);
         System.out.println("---");
 
         for (int ratioSet = 0; ratioSet < ratios.length; ratioSet++) {
@@ -44,8 +45,7 @@ public class Main {
                 for (int i = 0; i < numRuns; i++) {
                     sleepBeforeEachRun();
                     TestRunner test = new TestRunner(testType, numThread, list1, N, range);
-                    testResults
-                            .add(test.runTest(ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
+                    testResults.add(test.runTest(ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
                 }
                 long totalTime = 0;
                 long totalInitialSize = 0;
@@ -57,7 +57,6 @@ public class Main {
                     totalFinalSize += testResults.get(i).finalSize;
                     totalCompletedOps += testResults.get(i).numCompletedOps;
                 }
-                System.out.println(totalCompletedOps);
                 long avgTime = totalTime / numRuns;
                 long avgThroughput = (long) (totalCompletedOps * Math.pow(10, 6) / totalTime); // ops/ms
                 System.out.println("[" + numThread + " threads]: avgTime= " + avgTime + ", avgThroughput="
@@ -71,8 +70,8 @@ public class Main {
     }
 
     private static void testOnServer() {
-        final int N = (int) (5 * Math.pow(10, 2));
-        final int range = (int) Math.pow(10, 3);
+        final int N = (int) (5 * Math.pow(10, 3));
+        final int range = (int) Math.pow(10, 4);
         final int numRuns = 5;
         final int[] list1 = new int[N];
         final int[] numThreads = new int[] { 2, 8, 16, 28 };
@@ -115,7 +114,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        testLocally();
-        // testOnServer();
+        // testLocally();
+        testOnServer();
     }
 }

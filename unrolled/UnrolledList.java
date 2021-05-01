@@ -317,6 +317,19 @@ public class UnrolledList extends ConcurrentSet {
         return count;
     }
 
+    public synchronized int size2() {
+        UnrolledNode curr = this.head;
+        int count = 0;
+        while (curr != null) {
+            for (int i = 0; i < Constants.K; i++) {
+                if(curr.keys[i] != Constants.unusedSlot)
+                    count++;
+            }
+            curr = curr.next;
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         UnrolledList unrolledList = new UnrolledList();
         ConcurrentSkipListSet<Integer> javaList = new ConcurrentSkipListSet<Integer>();
@@ -366,8 +379,7 @@ public class UnrolledList extends ConcurrentSet {
             }
         }
 
-        // unrolledList.print();
-        System.out.println(unrolledList.size());
+        System.out.print(unrolledList.size() + " " + unrolledList.size2() + "\n");
         System.out.println(javaList.size());
     }
 }
