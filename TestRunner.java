@@ -79,12 +79,12 @@ public class TestRunner {
         return operationsList;
     }
 
-    public TestResults runTest(int numOperations, double ratioAdds, double ratioRemoves, double ratioContains) {
+    public TestResults runTest(int numOpsPerThread, double ratioAdds, double ratioRemoves, double ratioContains) {
 
         Thread[] threads = new Thread[numThreads];
-        int numAddsPerThread = (int) (numOperations * ratioAdds / numThreads);
-        int numRemovesPerThread = (int) (numOperations * ratioRemoves / numThreads);
-        int numContainsPerThread = (int) (numOperations * ratioContains / numThreads);
+        int numAddsPerThread = (int) (numOpsPerThread * ratioAdds);
+        int numRemovesPerThread = (int) (numOpsPerThread * ratioRemoves);
+        int numContainsPerThread = (int) (numOpsPerThread * ratioContains);
         Integer[][] operationsList = new Integer[numThreads][];
 
         for (int i = 0; i < numThreads; i++) {
