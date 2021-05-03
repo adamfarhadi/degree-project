@@ -228,11 +228,11 @@ public class UnrolledList extends ConcurrentSet {
                 curr.keys[slot] = Constants.unusedSlot;
                 curr.count--;
 
-                UnrolledNode succ = curr.next;
                 if (curr.count < Constants.MINFULL) {
                     curr.lock();
-
                     try {
+                        UnrolledNode succ = curr.next;
+
                         if (curr.count == 0) {
                             if (curr.anchor != Constants.sentinalMin) {
                                 curr.marked = true;
@@ -240,13 +240,12 @@ public class UnrolledList extends ConcurrentSet {
                             }
                             return true;
                         }
-                        succ = curr.next;
 
                         if (succ.anchor == Constants.sentinalMax) {
                             return true;
                         }
-                        succ.lock();
 
+                        succ.lock();
                         try {
                             UnrolledNode new1;
                             if (curr.count + succ.count < Constants.MAXMERGE) {
@@ -266,6 +265,7 @@ public class UnrolledList extends ConcurrentSet {
                         curr.unlock();
                     }
                 }
+                return true;
             } finally {
                 pred.unlock();
             }
