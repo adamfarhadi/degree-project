@@ -36,49 +36,6 @@ public class TestRunner {
         this.range = range;
     }
 
-    class RunOperations implements Runnable {
-        private Integer[] operations;
-
-        public RunOperations(Integer[] operations) {
-            this.operations = operations;
-        }
-
-        @Override
-        public void run() {
-            testThread(operations);
-        }
-    }
-
-    public void testThread(Integer[] operations) {
-        int l = operations.length;
-        for (int i = 0; i < l; i++) {
-            if (operations[i] == 0) {
-                list.add(ThreadLocalRandom.current().nextInt(-range / 2, range / 2 + 1));
-            } else if (operations[i] == 1) {
-                list.remove(ThreadLocalRandom.current().nextInt(-range / 2, range / 2 + 1));
-            } else if (operations[i] == 2) {
-                list.contains(ThreadLocalRandom.current().nextInt(-range / 2, range / 2 + 1));
-            }
-        }
-    }
-
-    public Integer[] generateOperations(int numOps, int numAdds, int numRemoves, int numContains) {
-        Integer[] operationsList = new Integer[numOps];
-        for (int i = 0; i < numOps; i++) {
-            if (i < numAdds)
-                operationsList[i] = 0;
-            else if (i < numAdds + numRemoves)
-                operationsList[i] = 1;
-            else
-                operationsList[i] = 2;
-        }
-
-        List<Integer> list = Arrays.asList(operationsList);
-        Collections.shuffle(list);
-        operationsList = list.toArray(operationsList);
-        return operationsList;
-    }
-
     public TestResults runTest(double ratioAdds, double ratioRemoves, double ratioContains) {
 
         Thread[] threads = new Thread[numThreads];
@@ -122,36 +79,5 @@ public class TestRunner {
         }
 
         return new TestResults(total_time, initialSize, list.size(), numCompletedOps);
-
-        // Thread[] threads = new Thread[numThreads];
-        // int numAddsPerThread = (int) (numOpsPerThread * ratioAdds);
-        // int numRemovesPerThread = (int) (numOpsPerThread * ratioRemoves);
-        // int numContainsPerThread = (int) (numOpsPerThread * ratioContains);
-        // Integer[][] operationsList = new Integer[numThreads][];
-
-        // for (int i = 0; i < numThreads; i++) {
-        // operationsList[i] = generateOperations(numAddsPerThread + numRemovesPerThread
-        // + numContainsPerThread,
-        // numAddsPerThread, numRemovesPerThread, numContainsPerThread);
-        // }
-
-        // long time = System.nanoTime();
-
-        // for (int i = 0; i < numThreads; i++) {
-        // threads[i] = new Thread(new RunOperations(operationsList[i]));
-        // threads[i].start();
-        // }
-
-        // for (int i = 0; i < threads.length; i++) {
-        // try {
-        // threads[i].join();
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // }
-
-        // long total_time = System.nanoTime() - time;
-
-        // return new TestResults(total_time, initialSize, list.size());
     }
 }
