@@ -3,24 +3,6 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    private static void getMeanAndStdDev(int[] list) {
-        double listMean = Arrays.stream(list).sum() / list.length;
-        double listVariance = 0;
-
-        for (int i = 0; i < list.length; i++) {
-            listVariance += Math.pow(list[i] - listMean, 2);
-        }
-
-        listVariance /= (list.length - 1);
-
-        System.out.println("Mean: " + listMean);
-        System.out.println("Std Dev: " + Math.sqrt(listVariance));
-    }
-
-    private static int getUniform(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max);
-    }
-
     private static void sleepBeforeEachRun() {
         try {
             Thread.sleep(100);
@@ -60,8 +42,7 @@ public class Main {
                 long avgTime = totalTime / numRuns;
                 long avgThroughput = (long) (totalCompletedOps * Math.pow(10, 6) / totalTime); // ops/ms
                 System.out.println("[" + numThread + " threads]: avgTime= " + avgTime + ", avgThroughput="
-                        + avgThroughput + ", averageInitialSize=" + totalInitialSize / testResults.size()
-                        + ", averageFinalSize=" + totalFinalSize / testResults.size());
+                        + avgThroughput + ", averageFinalSize=" + totalFinalSize / testResults.size());
             }
         }
 
@@ -73,44 +54,34 @@ public class Main {
         final int N = (int) (5 * Math.pow(10, 3));
         final int range = (int) Math.pow(10, 4);
         final int numRuns = 5;
-        final int[] list1 = new int[N];
+        final int[] initialList;
         final int[] numThreads = new int[] { 2, 8, 16, 28 };
         final double[][] ratios = new double[][] { { 0.5, 0.5, 0.0 }, { 0.25, 0.25, 0.5 }, { 0.05, 0.05, 0.9 } };
 
         System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
 
-        for (int i = 0; i < N; i++) {
-            list1[i] = getUniform(-range / 2, range / 2 + 1);
-        }
+        initialList = ThreadLocalRandom.current().ints(-range/2, range/2).distinct().limit(N).toArray();
 
-        System.out.println("\nList 1: Data sampled uniformly at random:");
-        getMeanAndStdDev(list1);
-
-        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, list1);
-        runTest("VersionedList", N, range, numThreads, ratios, numRuns, list1);
-        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, list1);
+        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, initialList);
+        runTest("VersionedList", N, range, numThreads, ratios, numRuns, initialList);
+        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, initialList);
     }
 
     private static void testLocally() {
         final int N = (int) (5 * Math.pow(10, 3));
         final int range = (int) Math.pow(10, 4);
         final int numRuns = 5;
-        final int[] list1 = new int[N];
+        final int[] initialList;
         final int[] numThreads = new int[] { 2, 6 };
         final double[][] ratios = new double[][] { { 0.5, 0.5, 0.0 }, { 0.25, 0.25, 0.5 }, { 0.05, 0.05, 0.9 } };
 
         System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
 
-        for (int i = 0; i < N; i++) {
-            list1[i] = getUniform(-range / 2, range / 2 + 1);
-        }
+        initialList = ThreadLocalRandom.current().ints(-range/2, range/2).distinct().limit(N).toArray();
 
-        System.out.println("\nList 1: Data sampled uniformly at random:");
-        getMeanAndStdDev(list1);
-
-        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, list1);
-        runTest("VersionedList", N, range, numThreads, ratios, numRuns, list1);
-        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, list1);
+        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, initialList);
+        runTest("VersionedList", N, range, numThreads, ratios, numRuns, initialList);
+        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, initialList);
     }
 
     public static void main(String[] args) {

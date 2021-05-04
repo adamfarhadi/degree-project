@@ -80,10 +80,6 @@ public class UnrolledList extends ConcurrentSet {
     }
 
     private UnrolledNode merge(UnrolledNode curr, UnrolledNode succ) {
-        // System.out.println("merge called");
-        // System.out.println(Arrays.toString(curr.keys));
-        // System.out.println(Arrays.toString(succ.keys));
-
         UnrolledNode new1 = new UnrolledNode();
         int slot = 0;
         for (int i = 0; i < Constants.K; i++) {
@@ -105,8 +101,6 @@ public class UnrolledList extends ConcurrentSet {
     }
 
     private UnrolledNodePair redistribute(UnrolledNode curr, UnrolledNode succ) {
-        // System.out.println("redistribute called");
-
         int M;
         if ((curr.count + succ.count) % 2 == 0) {
             M = (curr.count + succ.count) / 2 - curr.count;
