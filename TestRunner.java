@@ -36,14 +36,13 @@ public class TestRunner {
         this.range = range;
     }
 
-    public TestResults runTest(double ratioAdds, double ratioRemoves, double ratioContains) {
+    public TestResults runTest(int ratioAdds, int ratioRemoves, int ratioContains) {
 
         Thread[] threads = new Thread[numThreads];
         ThreadRunner[] threadRunners = new ThreadRunner[numThreads];
 
         for (int i = 0; i < numThreads; i++) {
-            threadRunners[i] = new ThreadRunner(list, range, (int) (ratioAdds * 100), (int) (ratioRemoves),
-                    (int) (ratioContains));
+            threadRunners[i] = new ThreadRunner(list, range, ratioAdds, ratioRemoves, ratioContains);
             threads[i] = new Thread(threadRunners[i]);
         }
 
