@@ -3,16 +3,16 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    private static void sleepBeforeEachRun() {
+    private static void sleepBeforeEachRun(int milliseconds) {
         try {
-            Thread.sleep(100);
+            Thread.sleep(milliseconds);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private static void runTest(String testType, int numInitialElements, int range, int[] numThreads,
-            int timeToRunThreads, int[][] ratios, int numRuns, int[] initialList, Integer unrolled_K) {
+            int timeToRunThreads, int timeToSleep, int[][] ratios, int numRuns, int[] initialList, Integer unrolled_K) {
 
         if (unrolled_K != null) {
             System.out.println("\nTesting " + testType + " (K=" + unrolled_K + ") with numInitialElements = "
@@ -31,7 +31,7 @@ public class Main {
             for (int numThread : numThreads) {
                 ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
                 for (int i = 0; i < numRuns; i++) {
-                    sleepBeforeEachRun();
+                    sleepBeforeEachRun(timeToSleep);
                     TestRunner test = new TestRunner(testType, numThread, timeToRunThreads, initialList, range,
                             unrolled_K);
                     testResults.add(test.runTest(ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
@@ -61,23 +61,24 @@ public class Main {
         final int numRuns = 5;
         final int[] numThreads = new int[] { 2, 8, 16, 28 };
         final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
-        final int timeToRunThreads = 1000;
+        final int timeToRunThreads = 5000;
+        final int timeToSleep = 1000;
 
         final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
                 .toArray();
 
         System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
 
-        runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                64);
-        runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
-        runTest("LazyList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
-        runTest("VersionedList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
-        runTest("LockFreeList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
+        runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, 64);
+        runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
+        runTest("LazyList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
+        runTest("VersionedList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
+        runTest("LockFreeList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
     }
 
     private static void testLocally() {
@@ -87,26 +88,27 @@ public class Main {
         final int[] numThreads = new int[] { 1, 2, 4, 8 };
         final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
         final int timeToRunThreads = 1000;
+        final int timeToSleep = 100;
 
         final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
                 .toArray();
 
         System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
 
-        runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                64);
-        runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
-        runTest("LazyList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
-        runTest("VersionedList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
-        runTest("LockFreeList", numInitialElements, range, numThreads, timeToRunThreads, ratios, numRuns, initialList,
-                null);
+        runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, 64);
+        runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
+        runTest("LazyList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
+        runTest("VersionedList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
+        runTest("LockFreeList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, null);
     }
 
     public static void main(String[] args) {
-        testLocally();
-        // testOnServer();
+        // testLocally();
+        testOnServer();
     }
 }
