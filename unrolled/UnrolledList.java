@@ -9,12 +9,16 @@ import abstraction.ConcurrentSet;
 public class UnrolledList extends ConcurrentSet {
     public final UnrolledNode head;
     public final UnrolledNode tail;
+    public final int K, MINFULL, MAXMERGE;
 
-    public UnrolledList() {
+    public UnrolledList(int K) {
+        this.K = K;
+        this.MINFULL = K / 4;
+        this.MAXMERGE = 3 * K / 4;
 
-        head = new UnrolledNode();
-        tail = new UnrolledNode();
-        UnrolledNode mid = new UnrolledNode();
+        head = new UnrolledNode(K);
+        tail = new UnrolledNode(K);
+        UnrolledNode mid = new UnrolledNode(K);
 
         head.next = mid;
         mid.next = tail;
@@ -42,7 +46,7 @@ public class UnrolledList extends ConcurrentSet {
     }
 
     private int seek(UnrolledNode curr, int key) {
-        for (int i = 0; i < Constants.K; i++) {
+        for (int i = 0; i < K; i++) {
             if (curr.keys[i] == key)
                 return i;
         }
@@ -55,34 +59,34 @@ public class UnrolledList extends ConcurrentSet {
     }
 
     private UnrolledNodePair split(UnrolledNode curr) {
-        UnrolledNode new1 = new UnrolledNode();
-        UnrolledNode new2 = new UnrolledNode();
+        UnrolledNode new1 = new UnrolledNode(K);
+        UnrolledNode new2 = new UnrolledNode(K);
 
         Arrays.sort(curr.keys);
 
         // initialize new1
-        for (int i = 0; i < Constants.K / 2; i++) {
+        for (int i = 0; i < K / 2; i++) {
             new1.keys[i] = curr.keys[i];
         }
         new1.anchor = curr.anchor;
-        new1.count = Constants.K / 2;
+        new1.count = K / 2;
         new1.next = new2;
 
         // initialize new2
-        for (int i = 0; i < Constants.K / 2; i++) {
-            new2.keys[i] = curr.keys[i + Constants.K / 2];
+        for (int i = 0; i < K / 2; i++) {
+            new2.keys[i] = curr.keys[i + K / 2];
         }
         new2.anchor = new2.keys[0];
-        new2.count = Constants.K / 2;
+        new2.count = K / 2;
         new2.next = curr.next;
 
         return new UnrolledNodePair(new1, new2);
     }
 
     private UnrolledNode merge(UnrolledNode curr, UnrolledNode succ) {
-        UnrolledNode new1 = new UnrolledNode();
+        UnrolledNode new1 = new UnrolledNode(K);
         int slot = 0;
-        for (int i = 0; i < Constants.K; i++) {
+        for (int i = 0; i < K; i++) {
             if (curr.keys[i] != Constants.unusedSlot) {
                 new1.keys[slot] = curr.keys[i];
                 slot++;
@@ -111,7 +115,7 @@ public class UnrolledList extends ConcurrentSet {
         // Find the M-th smallest key in succ
         int[] temp = new int[succ.count];
         int slot = 0;
-        for (int i = 0; i < Constants.K; i++) {
+        for (int i = 0; i < K; i++) {
             if (succ.keys[i] != Constants.unusedSlot) {
                 temp[slot] = succ.keys[i];
                 slot++;
@@ -120,14 +124,14 @@ public class UnrolledList extends ConcurrentSet {
         Arrays.sort(temp);
 
         // Create two new nodes new1 and new2
-        UnrolledNode new1 = new UnrolledNode();
-        UnrolledNode new2 = new UnrolledNode();
+        UnrolledNode new1 = new UnrolledNode(K);
+        UnrolledNode new2 = new UnrolledNode(K);
 
         // initialize new1
         new1.count = M + curr.count;
         // copy all valid keys in curr to new1
         slot = 0;
-        for (int i = 0; i < Constants.K; i++) {
+        for (int i = 0; i < K; i++) {
             if (curr.keys[i] != Constants.unusedSlot) {
                 new1.keys[slot++] = curr.keys[i];
             }
@@ -182,10 +186,10 @@ public class UnrolledList extends ConcurrentSet {
                         UnrolledNode new2 = temp2.node2;
 
                         if (key < new2.anchor) {
-                            new1.keys[Constants.K / 2] = key;
+                            new1.keys[K / 2] = key;
                             new1.count++;
                         } else {
-                            new2.keys[Constants.K / 2] = key;
+                            new2.keys[K / 2] = key;
                             new2.count++;
                         }
 
@@ -222,7 +226,7 @@ public class UnrolledList extends ConcurrentSet {
                 curr.keys[slot] = Constants.unusedSlot;
                 curr.count--;
 
-                if (curr.count < Constants.MINFULL) {
+                if (curr.count < MINFULL) {
                     curr.lock();
                     try {
                         UnrolledNode succ = curr.next;
@@ -242,7 +246,7 @@ public class UnrolledList extends ConcurrentSet {
                         succ.lock();
                         try {
                             UnrolledNode new1;
-                            if (curr.count + succ.count < Constants.MAXMERGE) {
+                            if (curr.count + succ.count < MAXMERGE) {
                                 new1 = merge(curr, succ);
                             } else {
                                 UnrolledNodePair temp2 = redistribute(curr, succ);
@@ -283,8 +287,8 @@ public class UnrolledList extends ConcurrentSet {
         while (curr != null) {
             System.out.print(curr + ": A=" + curr.anchor + ", C=" + curr.count);
             System.out.print(", keys=[");
-            for (int i = 0; i < Constants.K; i++) {
-                if (i == Constants.K - 1) {
+            for (int i = 0; i < K; i++) {
+                if (i == K - 1) {
                     if (curr.keys[i] == Constants.unusedSlot)
                         System.out.print("E");
                     else
@@ -315,7 +319,7 @@ public class UnrolledList extends ConcurrentSet {
         UnrolledNode curr = this.head;
         int count = 0;
         while (curr != null) {
-            for (int i = 0; i < Constants.K; i++) {
+            for (int i = 0; i < K; i++) {
                 if(curr.keys[i] != Constants.unusedSlot)
                     count++;
             }
@@ -325,7 +329,7 @@ public class UnrolledList extends ConcurrentSet {
     }
 
     public static void main(String[] args) {
-        UnrolledList unrolledList = new UnrolledList();
+        UnrolledList unrolledList = new UnrolledList(8);
         ConcurrentSkipListSet<Integer> javaList = new ConcurrentSkipListSet<Integer>();
         int range = 20000;
         int initialKeys = 10000;

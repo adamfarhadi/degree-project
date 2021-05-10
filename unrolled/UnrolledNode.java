@@ -12,9 +12,9 @@ public class UnrolledNode {
 
     public final ReentrantLock lock;
 
-    public UnrolledNode() {
+    public UnrolledNode(int K) {
         this.lock = new ReentrantLock();
-        this.keys = new int[Constants.K];
+        this.keys = new int[K];
         Arrays.fill(this.keys,Constants.unusedSlot);
     }
 

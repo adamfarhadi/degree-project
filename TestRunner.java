@@ -16,9 +16,9 @@ public class TestRunner {
     int numThreads;
     int initialSize;
 
-    public TestRunner(String testType, int numThreads, int[] inputList, int N, int range) {
+    public TestRunner(String testType, int numThreads, int[] inputList, int N, int range, Integer unrolled_K) {
         if (testType == "UnrolledList") {
-            list = new UnrolledList();
+            list = new UnrolledList(unrolled_K);
         } else if (testType == "VersionedList") {
             list = new VersionedList();
         } else if (testType == "LockFreeList") {

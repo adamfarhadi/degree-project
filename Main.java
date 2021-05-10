@@ -12,9 +12,15 @@ public class Main {
     }
 
     private static void runTest(String testType, int numInitialElements, int range, int[] numThreads, int[][] ratios,
-            int numRuns, int[] initialList) {
-        System.out.println("\nTesting " + testType + " with N = " + numInitialElements + ", range = " + range
+            int numRuns, int[] initialList, Integer unrolled_K) {
+
+        if(unrolled_K != null) {
+            System.out.println("\nTesting " + testType + " (K=" + unrolled_K + ") with N = " + numInitialElements + ", range = " + range
+            + ", numRuns = " + numRuns);
+        } else {
+            System.out.println("\nTesting " + testType + " with N = " + numInitialElements + ", range = " + range
                 + ", numRuns = " + numRuns);
+        }
         System.out.println("---");
 
         for (int ratioSet = 0; ratioSet < ratios.length; ratioSet++) {
@@ -26,7 +32,7 @@ public class Main {
                 ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
                 for (int i = 0; i < numRuns; i++) {
                     sleepBeforeEachRun();
-                    TestRunner test = new TestRunner(testType, numThread, initialList, numInitialElements, range);
+                    TestRunner test = new TestRunner(testType, numThread, initialList, numInitialElements, range, unrolled_K);
                     testResults.add(test.runTest(ratios[ratioSet][0], ratios[ratioSet][1], ratios[ratioSet][2]));
                 }
                 long totalTime = 0;
@@ -62,9 +68,9 @@ public class Main {
 
         initialList = ThreadLocalRandom.current().ints(-range / 2, range / 2).distinct().limit(N).toArray();
 
-        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, initialList);
-        runTest("VersionedList", N, range, numThreads, ratios, numRuns, initialList);
-        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, initialList);
+        runTest("UnrolledList", N, range, numThreads, ratios, numRuns, initialList, 8);
+        runTest("VersionedList", N, range, numThreads, ratios, numRuns, initialList, null);
+        runTest("LockFreeList", N, range, numThreads, ratios, numRuns, initialList, null);
     }
 
     private static void testLocally() {
@@ -80,9 +86,9 @@ public class Main {
         initialList = ThreadLocalRandom.current().ints(-range / 2, range / 2).distinct().limit(numInitialElements)
                 .toArray();
 
-        runTest("UnrolledList", numInitialElements, range, numThreads, ratios, numRuns, initialList);
-        runTest("VersionedList", numInitialElements, range, numThreads, ratios, numRuns, initialList);
-        runTest("LockFreeList", numInitialElements, range, numThreads, ratios, numRuns, initialList);
+        runTest("UnrolledList", numInitialElements, range, numThreads, ratios, numRuns, initialList, 8);
+        runTest("VersionedList", numInitialElements, range, numThreads, ratios, numRuns, initialList, null);
+        runTest("LockFreeList", numInitialElements, range, numThreads, ratios, numRuns, initialList, null);
     }
 
     public static void main(String[] args) {
