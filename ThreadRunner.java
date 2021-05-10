@@ -25,7 +25,7 @@ public class ThreadRunner implements Runnable {
     public void run() {
         while(!stop) {
             int coin = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-            int randomInt = ThreadLocalRandom.current().nextInt(-range / 2, range / 2 + 1);
+            int randomInt = ThreadLocalRandom.current().nextInt(0, range + 1);
             if(coin <= ratioAdds) {
                 list.add(randomInt);
                 numCompletedOps++;

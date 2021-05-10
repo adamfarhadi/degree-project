@@ -7,6 +7,8 @@ import abstraction.ConcurrentSet;
 import lockfree.LockFreeList;
 import unrolled.UnrolledList;
 import versioned.VersionedList;
+import lazy.LazyList;
+import skiplist.Skiplist;
 
 public class TestRunner {
 
@@ -15,14 +17,20 @@ public class TestRunner {
     int range;
     int numThreads;
     int initialSize;
+    int timeToRunThreads;
 
-    public TestRunner(String testType, int numThreads, int[] inputList, int N, int range, Integer unrolled_K) {
+    public TestRunner(String testType, int numThreads, int timeToRunThreads, int[] inputList, int range,
+            Integer unrolled_K) {
         if (testType == "UnrolledList") {
             list = new UnrolledList(unrolled_K);
         } else if (testType == "VersionedList") {
             list = new VersionedList();
         } else if (testType == "LockFreeList") {
             list = new LockFreeList();
+        } else if (testType == "LazyList") {
+            list = new LazyList();
+        } else if (testType == "Skiplist") {
+            list = new Skiplist();
         } else {
             return;
         }
@@ -32,8 +40,8 @@ public class TestRunner {
         }
         this.initialSize = list.size();
         this.numThreads = numThreads;
-        this.N = N;
         this.range = range;
+        this.timeToRunThreads = timeToRunThreads;
     }
 
     public TestResults runTest(int ratioAdds, int ratioRemoves, int ratioContains) {
@@ -52,7 +60,7 @@ public class TestRunner {
             thread.start();
         }
         try {
-            Thread.sleep(1000);
+            Thread.sleep(timeToRunThreads);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
