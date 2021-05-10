@@ -59,7 +59,7 @@ public class Main {
         final int numInitialElements = (int) (5 * Math.pow(10, 3));
         final int range = (int) Math.pow(10, 4);
         final int numRuns = 5;
-        final int[] numThreads = new int[] { 2, 8, 16, 28 };
+        final int[] numThreads = new int[] { 2, 12, 24, 46 };
         final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
         final int timeToRunThreads = 5000;
         final int timeToSleep = 1000;
