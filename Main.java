@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
@@ -97,18 +96,46 @@ public class Main {
 
         runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
                 initialList, 64);
+        runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, 256);
         runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
                 initialList, null);
         runTest("LazyList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
                 initialList, null);
-        runTest("VersionedList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+        runTest("Hashset", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
                 initialList, null);
-        runTest("LockFreeList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, null);
+        // runTest("VersionedList", numInitialElements, range, numThreads,
+        // timeToRunThreads, timeToSleep, ratios, numRuns,
+        // initialList, null);
+        // runTest("LockFreeList", numInitialElements, range, numThreads,
+        // timeToRunThreads, timeToSleep, ratios, numRuns,
+        // initialList, null);
+    }
+
+    private static void K_Test() {
+        final int numInitialElements = (int) (5 * Math.pow(10, 4));
+        final int range = (int) Math.pow(10, 5);
+        final int numRuns = 5;
+        final int[] numThreads = new int[] { 8 };
+        final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
+        final int timeToRunThreads = 1000;
+        final int timeToSleep = 100;
+        final int[] K_Values = new int[] { 64, 128, 256, 512, 1024 };
+
+        final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
+                .toArray();
+
+        System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
+
+        for (int K : K_Values) {
+            runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios,
+                    numRuns, initialList, K);
+        }
     }
 
     public static void main(String[] args) {
         // testLocally();
-        testOnServer();
+        // testOnServer();
+        K_Test();
     }
 }

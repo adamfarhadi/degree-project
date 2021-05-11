@@ -9,6 +9,7 @@ import unrolled.UnrolledList;
 import versioned.VersionedList;
 import lazy.LazyList;
 import skiplist.Skiplist;
+import hashset.Hashset;
 
 public class TestRunner {
 
@@ -31,6 +32,8 @@ public class TestRunner {
             list = new LazyList();
         } else if (testType == "Skiplist") {
             list = new Skiplist();
+        } else if (testType == "Hashset") {
+            list = new Hashset();
         } else {
             return;
         }
