@@ -54,6 +54,40 @@ public class Main {
         System.out.println("Done Testing " + testType);
     }
 
+    private static void runKTest(int numInitialElements, int range, int numThread, int timeToRunThreads,
+            int timeToSleep, int[] ratios, int numRuns, int[] initialList, ArrayList<Integer> K_list) {
+
+        System.out.println("Running K_Test for UnrolledList with numInitialElements = " + numInitialElements
+                + ", range = " + range + ", numRuns = " + numRuns + ", ratios=[" + ratios[0] + "," + ratios[1] + ","
+                + ratios[2] + "]");
+
+        System.out.println("---");
+
+        for (int K : K_list) {
+            ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
+            for (int i = 0; i < numRuns; i++) {
+                sleepBeforeEachRun(timeToSleep);
+                TestRunner test = new TestRunner("UnrolledList", numThread, timeToRunThreads, initialList, range,
+                        K);
+                testResults.add(test.runTest(ratios[0], ratios[1], ratios[2]));
+            }
+            long totalTime = 0;
+            long totalFinalSize = 0;
+            long totalCompletedOps = 0;
+            for (int i = 0; i < testResults.size(); i++) {
+                totalTime += testResults.get(i).time;
+                totalFinalSize += testResults.get(i).finalSize;
+                totalCompletedOps += testResults.get(i).numCompletedOps;
+            }
+            long avgThroughput = (long) (totalCompletedOps * Math.pow(10, 6) / totalTime); // ops/ms
+            System.out.println("K= " + K + ", avgThroughput=" + avgThroughput + ", averageFinalSize="
+                    + totalFinalSize / testResults.size());
+        }
+
+        System.out.println("---");
+        System.out.println("Done Running K_Test");
+    }
+
     private static void testOnServer() {
         final int numInitialElements = (int) (5 * Math.pow(10, 3));
         final int range = (int) Math.pow(10, 4);
@@ -113,29 +147,32 @@ public class Main {
     }
 
     private static void K_Test() {
-        final int numInitialElements = (int) (5 * Math.pow(10, 4));
-        final int range = (int) Math.pow(10, 5);
+        final int numInitialElements = (int) (2.5 * Math.pow(10, 3));
+        final int range = (int) (5 * Math.pow(10, 3));
         final int numRuns = 5;
-        final int[] numThreads = new int[] { 8 };
-        final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
-        final int timeToRunThreads = 1000;
+        final int numThreads = 8;
+        final int[] ratios = new int[] { 25, 25, 50 };
+        final int timeToRunThreads = 500;
         final int timeToSleep = 100;
-        final int[] K_Values = new int[] { 64, 128, 256, 512, 1024 };
 
         final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
                 .toArray();
 
+        ArrayList<Integer> K_list = new ArrayList<Integer>();
+
+        for (int i = 8; i <= 256; i += 8) {
+            K_list.add(i);
+        }
+
         System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
 
-        for (int K : K_Values) {
-            runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios,
-                    numRuns, initialList, K);
-        }
+        runKTest(numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns, initialList,
+                K_list);
     }
 
     public static void main(String[] args) {
-        // testLocally();
+        testLocally();
         // testOnServer();
-        K_Test();
+        // K_Test();
     }
 }
