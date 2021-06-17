@@ -67,8 +67,7 @@ public class Main {
             ArrayList<TestResults> testResults = new ArrayList<TestResults>(numRuns);
             for (int i = 0; i < numRuns; i++) {
                 sleepBeforeEachRun(timeToSleep);
-                TestRunner test = new TestRunner("UnrolledList", numThread, timeToRunThreads, initialList, range,
-                        K);
+                TestRunner test = new TestRunner("UnrolledList", numThread, timeToRunThreads, initialList, range, K);
                 testResults.add(test.runTest(ratios[0], ratios[1], ratios[2]));
             }
             long totalTime = 0;
@@ -79,9 +78,10 @@ public class Main {
                 totalFinalSize += testResults.get(i).finalSize;
                 totalCompletedOps += testResults.get(i).numCompletedOps;
             }
+            long avgTime = totalTime / numRuns;
             long avgThroughput = (long) (totalCompletedOps * Math.pow(10, 6) / totalTime); // ops/ms
-            System.out.println("K= " + K + ", avgThroughput=" + avgThroughput + ", averageFinalSize="
-                    + totalFinalSize / testResults.size());
+            System.out.println("K= " + K + ", avgThroughput=" + avgThroughput + ", avgTime=" + avgTime
+                    + ", averageFinalSize=" + totalFinalSize / testResults.size());
         }
 
         System.out.println("---");
@@ -152,7 +152,7 @@ public class Main {
         final int numRuns = 5;
         final int numThreads = 8;
         final int[] ratios = new int[] { 25, 25, 50 };
-        final int timeToRunThreads = 500;
+        final int timeToRunThreads = 1000;
         final int timeToSleep = 100;
 
         final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
@@ -160,7 +160,10 @@ public class Main {
 
         ArrayList<Integer> K_list = new ArrayList<Integer>();
 
-        for (int i = 8; i <= 256; i += 8) {
+        final int K_interval = 8;
+        final int K_max = 32 * K_interval;
+
+        for (int i = K_interval; i <= K_max; i += K_interval) {
             K_list.add(i);
         }
 
@@ -171,8 +174,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        testLocally();
+        // testLocally();
         // testOnServer();
-        // K_Test();
+        K_Test();
     }
 }
