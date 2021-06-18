@@ -88,40 +88,15 @@ public class Main {
         System.out.println("Done Running K_Test");
     }
 
-    private static void testOnServer() {
-        final int numInitialElements = (int) (5 * Math.pow(10, 3));
-        final int range = (int) Math.pow(10, 4);
-        final int numRuns = 5;
-        final int[] numThreads = new int[] { 2, 12, 24, 46 };
-        final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
-        final int timeToRunThreads = 5000;
-        final int timeToSleep = 1000;
-
-        final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
-                .toArray();
-
-        System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
-
-        runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, 64);
-        runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, null);
-        runTest("LazyList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, null);
-        runTest("VersionedList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, null);
-        runTest("LockFreeList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, null);
-    }
-
-    private static void testLocally() {
-        final int numInitialElements = (int) (5 * Math.pow(10, 3));
-        final int range = (int) Math.pow(10, 4);
+    private static void runUnrolledTest() {
+        final int range = (int) Math.pow(10, 3);
+        final int numInitialElements = range / 2;
         final int numRuns = 5;
         final int[] numThreads = new int[] { 1, 2, 4, 8 };
         final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
         final int timeToRunThreads = 1000;
         final int timeToSleep = 100;
+        final int K = 32;
 
         final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
                 .toArray();
@@ -129,26 +104,25 @@ public class Main {
         System.out.println("Available CPU Cores: " + Runtime.getRuntime().availableProcessors());
 
         runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, 64);
-        runTest("UnrolledList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
-                initialList, 256);
-        runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+                initialList, K);
+        runTest("VersionedList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
                 initialList, null);
         runTest("LazyList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
                 initialList, null);
-        runTest("Hashset", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
+        runTest("LockFreeList", numInitialElements, range, numThreads, timeToRunThreads, timeToSleep, ratios, numRuns,
                 initialList, null);
-        // runTest("VersionedList", numInitialElements, range, numThreads,
-        // timeToRunThreads, timeToSleep, ratios, numRuns,
+
+        // runTest("Skiplist", numInitialElements, range, numThreads, timeToRunThreads,
+        // timeToSleep, ratios, numRuns,
         // initialList, null);
-        // runTest("LockFreeList", numInitialElements, range, numThreads,
-        // timeToRunThreads, timeToSleep, ratios, numRuns,
+        // runTest("Hashset", numInitialElements, range, numThreads, timeToRunThreads,
+        // timeToSleep, ratios, numRuns,
         // initialList, null);
     }
 
     private static void K_Test() {
-        final int numInitialElements = (int) (2.5 * Math.pow(10, 3));
         final int range = (int) (5 * Math.pow(10, 3));
+        final int numInitialElements = range / 2;
         final int numRuns = 5;
         final int numThreads = 8;
         final int[] ratios = new int[] { 25, 25, 50 };
@@ -174,8 +148,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // testLocally();
-        // testOnServer();
-        K_Test();
+        runUnrolledTest();
+        // K_Test();
     }
 }
