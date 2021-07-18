@@ -4,7 +4,7 @@ import abstraction.ConcurrentSet;
 
 public class ThreadRunner implements Runnable {
     private volatile boolean stop = false;
-    private int ratioAdds, ratioRemoves, ratioContains;
+    private int ratioAdds, ratioRemoves;
     ConcurrentSet list;
     int range;
 
@@ -24,7 +24,7 @@ public class ThreadRunner implements Runnable {
 
     public void run() {
         while(!stop) {
-            int coin = ThreadLocalRandom.current().nextInt(0, 100 + 1);
+            int coin = ThreadLocalRandom.current().nextInt(1, 100 + 1);
             int randomInt = ThreadLocalRandom.current().nextInt(0, range + 1);
             if(coin <= ratioAdds) {
                 list.add(randomInt);
