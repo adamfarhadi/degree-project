@@ -89,14 +89,14 @@ public class Main {
     }
 
     private static void runUnrolledTest() {
-        final int range = (int) Math.pow(10, 3);
+        final int range = 2*((int) Math.pow(10, 2));
         final int numInitialElements = range / 2;
-        final int numRuns = 5;
-        final int[] numThreads = new int[] { 1, 2, 4, 8 };
-        final int[][] ratios = new int[][] { { 50, 50, 0 }, { 25, 25, 50 }, { 5, 5, 90 } };
-        final int timeToRunThreads = 1000;
+        final int numRuns = 3;
+        final int[] numThreads = new int[] { 2, 4 };
+        final int[][] ratios = new int[][] { { 50, 50, 0 }, { 10, 10, 80 }, { 0, 0, 100 } };
+        final int timeToRunThreads = 2000;
         final int timeToSleep = 100;
-        final int K = 32;
+        final int K = 14;
 
         final int[] initialList = ThreadLocalRandom.current().ints(0, range + 1).distinct().limit(numInitialElements)
                 .toArray();
@@ -121,11 +121,11 @@ public class Main {
     }
 
     private static void K_Test() {
-        final int range = (int) (5 * Math.pow(10, 3));
+        final int range = 5*((int) Math.pow(10, 3));
         final int numInitialElements = range / 2;
         final int numRuns = 5;
         final int numThreads = 8;
-        final int[] ratios = new int[] { 25, 25, 50 };
+        final int[] ratios = new int[] { 10, 10, 80 };
         final int timeToRunThreads = 1000;
         final int timeToSleep = 100;
 

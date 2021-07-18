@@ -15,7 +15,6 @@ public class ThreadRunner implements Runnable {
         this.range = range;
         this.ratioAdds = ratioAdds;
         this.ratioRemoves = ratioRemoves;
-        this.ratioContains = ratioContains;
     }
 
     public void stopThread() {
