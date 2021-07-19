@@ -1,0 +1,35 @@
+Available CPU Cores: 48
+Running K_Test for UnrolledList with numInitialElements = 1000, range = 2000, numRuns = 3, ratios=[10,10,80]
+---
+K= 2, avgThroughput=9061, avgTime=3029293913, averageFinalSize=1025
+K= 6, avgThroughput=28898, avgTime=3018026088, averageFinalSize=986
+K= 10, avgThroughput=36658, avgTime=3010368379, averageFinalSize=982
+K= 14, avgThroughput=38163, avgTime=3010897050, averageFinalSize=1012
+K= 18, avgThroughput=37692, avgTime=3013213151, averageFinalSize=997
+K= 22, avgThroughput=38435, avgTime=3014399099, averageFinalSize=1000
+K= 26, avgThroughput=37414, avgTime=3010531312, averageFinalSize=980
+K= 30, avgThroughput=35948, avgTime=3011113846, averageFinalSize=975
+K= 34, avgThroughput=36177, avgTime=3011209685, averageFinalSize=1000
+K= 38, avgThroughput=35621, avgTime=3011318006, averageFinalSize=990
+K= 42, avgThroughput=32317, avgTime=3009507025, averageFinalSize=978
+K= 46, avgThroughput=32454, avgTime=3010213794, averageFinalSize=986
+K= 50, avgThroughput=30382, avgTime=3010016925, averageFinalSize=1001
+K= 54, avgThroughput=29468, avgTime=3009778186, averageFinalSize=985
+K= 58, avgThroughput=22151, avgTime=3008866692, averageFinalSize=997
+K= 62, avgThroughput=26991, avgTime=3007920383, averageFinalSize=983
+K= 66, avgThroughput=18310, avgTime=3008303363, averageFinalSize=978
+K= 70, avgThroughput=19370, avgTime=3010391056, averageFinalSize=994
+K= 74, avgThroughput=10216, avgTime=3008193768, averageFinalSize=985
+K= 78, avgThroughput=13654, avgTime=3010560111, averageFinalSize=1009
+K= 82, avgThroughput=18270, avgTime=3008276311, averageFinalSize=984
+K= 86, avgThroughput=11735, avgTime=3008533003, averageFinalSize=1010
+K= 90, avgThroughput=10081, avgTime=3009382715, averageFinalSize=1014
+K= 94, avgThroughput=8341, avgTime=3008840474, averageFinalSize=1004
+K= 98, avgThroughput=8013, avgTime=3008612605, averageFinalSize=1028
+K= 102, avgThroughput=6309, avgTime=3008524684, averageFinalSize=1011
+K= 106, avgThroughput=7536, avgTime=3008579197, averageFinalSize=1007
+K= 110, avgThroughput=6727, avgTime=3008791297, averageFinalSize=995
+K= 114, avgThroughput=7773, avgTime=3008674229, averageFinalSize=986
+K= 118, avgThroughput=7444, avgTime=3009351156, averageFinalSize=1011
+---
+Done Running K_Test

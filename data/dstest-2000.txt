@@ -1,0 +1,186 @@
+Available CPU Cores: 48
+
+Testing UnrolledList (K=22) with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+50% Adds, 50% Removes, 0% Contains
+[2 threads]: avgTime= 3000976122, avgThroughput=2552, averageFinalSize=1002
+[6 threads]: avgTime= 3003521610, avgThroughput=4569, averageFinalSize=997
+[12 threads]: avgTime= 3005396781, avgThroughput=7550, averageFinalSize=995
+[18 threads]: avgTime= 3006413681, avgThroughput=9933, averageFinalSize=988
+[24 threads]: avgTime= 3007728777, avgThroughput=11606, averageFinalSize=1002
+[30 threads]: avgTime= 3009961980, avgThroughput=12977, averageFinalSize=1000
+[36 threads]: avgTime= 3008572485, avgThroughput=13831, averageFinalSize=989
+[42 threads]: avgTime= 3008781003, avgThroughput=14739, averageFinalSize=1008
+[46 threads]: avgTime= 3009039628, avgThroughput=15216, averageFinalSize=991
+
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3000700329, avgThroughput=4572, averageFinalSize=1006
+[6 threads]: avgTime= 3001724406, avgThroughput=7975, averageFinalSize=974
+[12 threads]: avgTime= 3002820456, avgThroughput=14643, averageFinalSize=996
+[18 threads]: avgTime= 3004243672, avgThroughput=21565, averageFinalSize=1012
+[24 threads]: avgTime= 3005767643, avgThroughput=25893, averageFinalSize=1008
+[30 threads]: avgTime= 3006419112, avgThroughput=29745, averageFinalSize=993
+[36 threads]: avgTime= 3008780934, avgThroughput=33388, averageFinalSize=1020
+[42 threads]: avgTime= 3011490006, avgThroughput=36102, averageFinalSize=991
+[46 threads]: avgTime= 3010058115, avgThroughput=37814, averageFinalSize=1005
+
+0% Adds, 0% Removes, 100% Contains
+[2 threads]: avgTime= 3001102800, avgThroughput=17193, averageFinalSize=1000
+[6 threads]: avgTime= 3001505554, avgThroughput=36108, averageFinalSize=1000
+[12 threads]: avgTime= 3003415531, avgThroughput=81656, averageFinalSize=1000
+[18 threads]: avgTime= 3003373886, avgThroughput=131864, averageFinalSize=1000
+[24 threads]: avgTime= 3010049711, avgThroughput=143556, averageFinalSize=1000
+[30 threads]: avgTime= 3005963576, avgThroughput=196825, averageFinalSize=1000
+[36 threads]: avgTime= 3014486338, avgThroughput=198692, averageFinalSize=1000
+[42 threads]: avgTime= 3023208482, avgThroughput=270981, averageFinalSize=1000
+[46 threads]: avgTime= 3017132354, avgThroughput=243897, averageFinalSize=1000
+---
+Done Testing UnrolledList
+
+Testing UnrolledList (K=64) with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+50% Adds, 50% Removes, 0% Contains
+[2 threads]: avgTime= 3000557940, avgThroughput=2715, averageFinalSize=1018
+[6 threads]: avgTime= 3001690967, avgThroughput=4917, averageFinalSize=1013
+[12 threads]: avgTime= 3002352090, avgThroughput=5914, averageFinalSize=1012
+[18 threads]: avgTime= 3003249493, avgThroughput=7038, averageFinalSize=994
+[24 threads]: avgTime= 3004172798, avgThroughput=7488, averageFinalSize=1010
+[30 threads]: avgTime= 3004545853, avgThroughput=7849, averageFinalSize=997
+[36 threads]: avgTime= 3006196287, avgThroughput=7488, averageFinalSize=980
+[42 threads]: avgTime= 3006209583, avgThroughput=7837, averageFinalSize=1003
+[46 threads]: avgTime= 3006070788, avgThroughput=7451, averageFinalSize=997
+
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3000924955, avgThroughput=6238, averageFinalSize=995
+[6 threads]: avgTime= 3001722649, avgThroughput=9666, averageFinalSize=976
+[12 threads]: avgTime= 3002455600, avgThroughput=14645, averageFinalSize=999
+[18 threads]: avgTime= 3003530744, avgThroughput=15728, averageFinalSize=1010
+[24 threads]: avgTime= 3004095855, avgThroughput=20551, averageFinalSize=986
+[30 threads]: avgTime= 3005148484, avgThroughput=22116, averageFinalSize=1023
+[36 threads]: avgTime= 3008133563, avgThroughput=18485, averageFinalSize=984
+[42 threads]: avgTime= 3007012811, avgThroughput=25020, averageFinalSize=987
+[46 threads]: avgTime= 3006519513, avgThroughput=23805, averageFinalSize=1007
+
+0% Adds, 0% Removes, 100% Contains
+[2 threads]: avgTime= 3001554927, avgThroughput=14985, averageFinalSize=1000
+[6 threads]: avgTime= 3001815386, avgThroughput=43443, averageFinalSize=1000
+[12 threads]: avgTime= 3002839837, avgThroughput=56727, averageFinalSize=1000
+[18 threads]: avgTime= 3004648683, avgThroughput=104366, averageFinalSize=1000
+[24 threads]: avgTime= 3005073004, avgThroughput=127483, averageFinalSize=1000
+[30 threads]: avgTime= 3006529548, avgThroughput=193967, averageFinalSize=1000
+[36 threads]: avgTime= 3016744429, avgThroughput=245415, averageFinalSize=1000
+[42 threads]: avgTime= 3025173214, avgThroughput=392345, averageFinalSize=1000
+[46 threads]: avgTime= 3010868268, avgThroughput=209609, averageFinalSize=1000
+---
+Done Testing UnrolledList
+
+Testing VersionedList with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+50% Adds, 50% Removes, 0% Contains
+[2 threads]: avgTime= 3001063491, avgThroughput=376, averageFinalSize=987
+[6 threads]: avgTime= 3002290728, avgThroughput=942, averageFinalSize=998
+[12 threads]: avgTime= 3004119012, avgThroughput=1979, averageFinalSize=1004
+[18 threads]: avgTime= 3004266993, avgThroughput=3214, averageFinalSize=1009
+[24 threads]: avgTime= 3005863623, avgThroughput=4291, averageFinalSize=1007
+[30 threads]: avgTime= 3008682769, avgThroughput=5665, averageFinalSize=990
+[36 threads]: avgTime= 3016726793, avgThroughput=6843, averageFinalSize=987
+[42 threads]: avgTime= 3010122218, avgThroughput=8192, averageFinalSize=994
+[46 threads]: avgTime= 3014032298, avgThroughput=8900, averageFinalSize=1009
+
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3001044327, avgThroughput=454, averageFinalSize=1000
+[6 threads]: avgTime= 3002672412, avgThroughput=1079, averageFinalSize=1035
+[12 threads]: avgTime= 3002978243, avgThroughput=2592, averageFinalSize=999
+[18 threads]: avgTime= 3005100977, avgThroughput=4448, averageFinalSize=976
+[24 threads]: avgTime= 3006698604, avgThroughput=6407, averageFinalSize=985
+[30 threads]: avgTime= 3011987148, avgThroughput=8410, averageFinalSize=1000
+[36 threads]: avgTime= 3007918902, avgThroughput=10154, averageFinalSize=984
+[42 threads]: avgTime= 3009250141, avgThroughput=11350, averageFinalSize=991
+[46 threads]: avgTime= 3018331780, avgThroughput=12956, averageFinalSize=1005
+
+0% Adds, 0% Removes, 100% Contains
+[2 threads]: avgTime= 3002247352, avgThroughput=790, averageFinalSize=1000
+[6 threads]: avgTime= 3003196844, avgThroughput=2303, averageFinalSize=1000
+[12 threads]: avgTime= 3002924062, avgThroughput=4212, averageFinalSize=1000
+[18 threads]: avgTime= 3004333840, avgThroughput=7238, averageFinalSize=1000
+[24 threads]: avgTime= 3005239736, avgThroughput=9944, averageFinalSize=1000
+[30 threads]: avgTime= 3008294067, avgThroughput=13334, averageFinalSize=1000
+[36 threads]: avgTime= 3007226695, avgThroughput=16198, averageFinalSize=1000
+[42 threads]: avgTime= 3017858371, avgThroughput=17875, averageFinalSize=1000
+[46 threads]: avgTime= 3014901202, avgThroughput=20035, averageFinalSize=1000
+---
+Done Testing VersionedList
+
+Testing LazyList with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+50% Adds, 50% Removes, 0% Contains
+[2 threads]: avgTime= 3001407416, avgThroughput=337, averageFinalSize=1019
+[6 threads]: avgTime= 3001917228, avgThroughput=706, averageFinalSize=992
+[12 threads]: avgTime= 3002828599, avgThroughput=1476, averageFinalSize=1009
+[18 threads]: avgTime= 3004672597, avgThroughput=2312, averageFinalSize=1008
+[24 threads]: avgTime= 3004793254, avgThroughput=3208, averageFinalSize=982
+[30 threads]: avgTime= 3006570524, avgThroughput=4143, averageFinalSize=986
+[36 threads]: avgTime= 3006964365, avgThroughput=4967, averageFinalSize=1000
+[42 threads]: avgTime= 3008455469, avgThroughput=5946, averageFinalSize=1023
+[46 threads]: avgTime= 3008369188, avgThroughput=6714, averageFinalSize=992
+
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3001563373, avgThroughput=448, averageFinalSize=1018
+[6 threads]: avgTime= 3002470560, avgThroughput=1071, averageFinalSize=987
+[12 threads]: avgTime= 3003279914, avgThroughput=2357, averageFinalSize=995
+[18 threads]: avgTime= 3005256006, avgThroughput=3795, averageFinalSize=975
+[24 threads]: avgTime= 3005166203, avgThroughput=5283, averageFinalSize=1011
+[30 threads]: avgTime= 3006359708, avgThroughput=6914, averageFinalSize=999
+[36 threads]: avgTime= 3007088446, avgThroughput=8552, averageFinalSize=1021
+[42 threads]: avgTime= 3008058718, avgThroughput=9371, averageFinalSize=1010
+[46 threads]: avgTime= 3009219576, avgThroughput=10539, averageFinalSize=1002
+
+0% Adds, 0% Removes, 100% Contains
+[2 threads]: avgTime= 3002108701, avgThroughput=880, averageFinalSize=1000
+[6 threads]: avgTime= 3002160269, avgThroughput=2589, averageFinalSize=1000
+[12 threads]: avgTime= 3005279379, avgThroughput=5461, averageFinalSize=1000
+[18 threads]: avgTime= 3003908875, avgThroughput=7410, averageFinalSize=1000
+[24 threads]: avgTime= 3006266750, avgThroughput=10266, averageFinalSize=1000
+[30 threads]: avgTime= 3012280415, avgThroughput=12176, averageFinalSize=1000
+[36 threads]: avgTime= 3014025738, avgThroughput=15729, averageFinalSize=1000
+[42 threads]: avgTime= 3014487415, avgThroughput=18044, averageFinalSize=1000
+[46 threads]: avgTime= 3021372088, avgThroughput=19943, averageFinalSize=1000
+---
+Done Testing LazyList
+
+Testing LockFreeList with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+50% Adds, 50% Removes, 0% Contains
+[2 threads]: avgTime= 3000535501, avgThroughput=205, averageFinalSize=1014
+[6 threads]: avgTime= 3001445641, avgThroughput=503, averageFinalSize=994
+[12 threads]: avgTime= 3002761721, avgThroughput=1206, averageFinalSize=1010
+[18 threads]: avgTime= 3003852461, avgThroughput=2048, averageFinalSize=1021
+[24 threads]: avgTime= 3004938406, avgThroughput=2864, averageFinalSize=1004
+[30 threads]: avgTime= 3008787542, avgThroughput=3734, averageFinalSize=1007
+[36 threads]: avgTime= 3012213038, avgThroughput=4404, averageFinalSize=1000
+[42 threads]: avgTime= 3009671304, avgThroughput=5160, averageFinalSize=993
+[46 threads]: avgTime= 3009148304, avgThroughput=5496, averageFinalSize=984
+
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3001287575, avgThroughput=235, averageFinalSize=996
+[6 threads]: avgTime= 3002018054, avgThroughput=576, averageFinalSize=1008
+[12 threads]: avgTime= 3003005776, avgThroughput=1388, averageFinalSize=996
+[18 threads]: avgTime= 3004352638, avgThroughput=2568, averageFinalSize=1007
+[24 threads]: avgTime= 3005658850, avgThroughput=4226, averageFinalSize=1002
+[30 threads]: avgTime= 3006389566, avgThroughput=5347, averageFinalSize=1016
+[36 threads]: avgTime= 3009724602, avgThroughput=6636, averageFinalSize=995
+[42 threads]: avgTime= 3009958468, avgThroughput=7821, averageFinalSize=998
+[46 threads]: avgTime= 3018225643, avgThroughput=8557, averageFinalSize=1008
+
+0% Adds, 0% Removes, 100% Contains
+[2 threads]: avgTime= 3001108109, avgThroughput=688, averageFinalSize=1000
+[6 threads]: avgTime= 3002312379, avgThroughput=2083, averageFinalSize=1000
+[12 threads]: avgTime= 3003071727, avgThroughput=3553, averageFinalSize=1000
+[18 threads]: avgTime= 3004873223, avgThroughput=4920, averageFinalSize=1000
+[24 threads]: avgTime= 3005865913, avgThroughput=6193, averageFinalSize=1000
+[30 threads]: avgTime= 3015212314, avgThroughput=10384, averageFinalSize=1000
+[36 threads]: avgTime= 3013465188, avgThroughput=11178, averageFinalSize=1000
+[42 threads]: avgTime= 3012913409, avgThroughput=11813, averageFinalSize=1000
+[46 threads]: avgTime= 3016469283, avgThroughput=14035, averageFinalSize=1000
+---
+Done Testing LockFreeList

@@ -1,0 +1,25 @@
+Available CPU Cores: 48
+Running K_Test for UnrolledList with numInitialElements = 100, range = 200, numRuns = 3, ratios=[10,10,80]
+---
+K= 2, avgThroughput=11281, avgTime=3029778084, averageFinalSize=106
+K= 4, avgThroughput=22715, avgTime=3019707794, averageFinalSize=101
+K= 6, avgThroughput=21343, avgTime=3011903957, averageFinalSize=110
+K= 8, avgThroughput=17402, avgTime=3010590450, averageFinalSize=105
+K= 10, avgThroughput=16222, avgTime=3008617017, averageFinalSize=95
+K= 12, avgThroughput=13886, avgTime=3007879140, averageFinalSize=105
+K= 14, avgThroughput=12932, avgTime=3008487862, averageFinalSize=107
+K= 16, avgThroughput=11715, avgTime=3007905946, averageFinalSize=101
+K= 18, avgThroughput=11473, avgTime=3007701402, averageFinalSize=95
+K= 20, avgThroughput=10456, avgTime=3007725444, averageFinalSize=107
+K= 22, avgThroughput=10036, avgTime=3007390039, averageFinalSize=96
+K= 24, avgThroughput=9949, avgTime=3008825068, averageFinalSize=104
+K= 26, avgThroughput=9312, avgTime=3007338336, averageFinalSize=90
+K= 28, avgThroughput=8977, avgTime=3008091858, averageFinalSize=105
+K= 30, avgThroughput=8652, avgTime=3007820663, averageFinalSize=95
+K= 32, avgThroughput=8305, avgTime=3008044288, averageFinalSize=95
+K= 34, avgThroughput=8322, avgTime=3008018488, averageFinalSize=102
+K= 36, avgThroughput=8264, avgTime=3007727830, averageFinalSize=96
+K= 38, avgThroughput=7974, avgTime=3009034920, averageFinalSize=101
+K= 40, avgThroughput=8010, avgTime=3014944307, averageFinalSize=102
+---
+Done Running K_Test
