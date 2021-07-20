@@ -1,0 +1,61 @@
+Available CPU Cores: 48
+
+Testing UnrolledList (K=22) with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3000953976, avgThroughput=5005, averageFinalSize=985
+[6 threads]: avgTime= 3002632120, avgThroughput=8617, averageFinalSize=1034
+[12 threads]: avgTime= 3004777156, avgThroughput=15929, averageFinalSize=992
+[18 threads]: avgTime= 3005955677, avgThroughput=22087, averageFinalSize=993
+[24 threads]: avgTime= 3007759050, avgThroughput=26516, averageFinalSize=1016
+[30 threads]: avgTime= 3009149333, avgThroughput=30400, averageFinalSize=1000
+[36 threads]: avgTime= 3007906736, avgThroughput=33331, averageFinalSize=984
+[42 threads]: avgTime= 3010918742, avgThroughput=36175, averageFinalSize=989
+[46 threads]: avgTime= 3013408055, avgThroughput=37798, averageFinalSize=993
+---
+Done Testing UnrolledList
+
+Testing UnrolledList (K=64) with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3000937824, avgThroughput=6140, averageFinalSize=1003
+[6 threads]: avgTime= 3002578123, avgThroughput=10346, averageFinalSize=1011
+[12 threads]: avgTime= 3002583157, avgThroughput=15495, averageFinalSize=996
+[18 threads]: avgTime= 3004097140, avgThroughput=16703, averageFinalSize=1009
+[24 threads]: avgTime= 3005238511, avgThroughput=20472, averageFinalSize=989
+[30 threads]: avgTime= 3006786251, avgThroughput=21723, averageFinalSize=996
+[36 threads]: avgTime= 3004234351, avgThroughput=23747, averageFinalSize=1011
+[42 threads]: avgTime= 3007266585, avgThroughput=24637, averageFinalSize=1020
+[46 threads]: avgTime= 3006478812, avgThroughput=26203, averageFinalSize=1001
+---
+Done Testing UnrolledList
+
+Testing Skiplist with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3000766381, avgThroughput=7612, averageFinalSize=1018
+[6 threads]: avgTime= 3001665461, avgThroughput=16349, averageFinalSize=1008
+[12 threads]: avgTime= 3003648033, avgThroughput=22645, averageFinalSize=1005
+[18 threads]: avgTime= 3004465212, avgThroughput=31610, averageFinalSize=985
+[24 threads]: avgTime= 3005183902, avgThroughput=36824, averageFinalSize=1020
+[30 threads]: avgTime= 3006554392, avgThroughput=44813, averageFinalSize=980
+[36 threads]: avgTime= 3012696296, avgThroughput=49522, averageFinalSize=1001
+[42 threads]: avgTime= 3013312148, avgThroughput=55722, averageFinalSize=1013
+[46 threads]: avgTime= 3010628596, avgThroughput=54307, averageFinalSize=982
+---
+Done Testing Skiplist
+
+Testing Hashset with numInitialElements = 1000, range = 2000, numRuns = 3
+---
+10% Adds, 10% Removes, 80% Contains
+[2 threads]: avgTime= 3000848934, avgThroughput=11441, averageFinalSize=1024
+[6 threads]: avgTime= 3002049619, avgThroughput=28574, averageFinalSize=1007
+[12 threads]: avgTime= 3003207400, avgThroughput=38523, averageFinalSize=1013
+[18 threads]: avgTime= 3005135667, avgThroughput=50192, averageFinalSize=1003
+[24 threads]: avgTime= 3005119665, avgThroughput=62574, averageFinalSize=995
+[30 threads]: avgTime= 3005837742, avgThroughput=78248, averageFinalSize=1020
+[36 threads]: avgTime= 3007576682, avgThroughput=80787, averageFinalSize=1010
+[42 threads]: avgTime= 3015080594, avgThroughput=87180, averageFinalSize=1034
+[46 threads]: avgTime= 3012269949, avgThroughput=89894, averageFinalSize=979
+---
+Done Testing Hashset
