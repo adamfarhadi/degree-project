@@ -1,0 +1,24 @@
+range=200, 46 threads
+unrolled(k=4): 23599
+Skiplist: 26130
+Hashset: 32526
+
+range=2000, 46 threads
+unrolled(k=22): 37798
+Skiplist: 54307
+Hashset: 89894
+
+range=20000, 46 threads
+unrolled(k=62): 34663
+Skiplist: 57586
+Hashset: 128999
+
+range=100000, 46 threads
+unrolled(k=352): 31376
+Skiplist: 51362
+Hashset: 141070
+
+range=1000000, 46 threads
+unrolled(k=1280): 15008
+Skiplist: 24527
+Hashset: 66407
